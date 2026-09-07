@@ -1,0 +1,24 @@
+{
+  "appId": "pl.niekazmuliczyc.ortus",
+  "appName": "Ortuś",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https",
+    "iosScheme": "capacitor"
+  },
+  "android": {
+    "allowMixedContent": false,
+    "backgroundColor": "#FFF8F0"
+  },
+  "ios": {
+    "contentInset": "always",
+    "backgroundColor": "#FFF8F0"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": true,
+      "backgroundColor": "#FFF8F0",
+      "showSpinner": false
+    }
+  }
+}
