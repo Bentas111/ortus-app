@@ -1,0 +1,115 @@
+# Budowa aplikacji iOS w chmurze (GitHub Actions, macOS) i wysyłka do TestFlight.
+#
+# Schemat sprawdzony przy „Trener Matura" (7 IX 2026). Różnica: Ortuś używa wtyczek
+# Capacitora (AdMob, App, Browser, SplashScreen), więc CocoaPods tworzy workspace
+# i budujemy `App.xcworkspace`, a nie sam `App.xcodeproj`.
+#
+# Sekrety repozytorium (Settings → Secrets and variables → Actions):
+#   APPLE_TEAM_ID   — NKP6H745DZ (developer.apple.com → Membership details)
+#   ASC_KEY_ID      — identyfikator klucza API App Store Connect
+#   ASC_ISSUER_ID   — Issuer ID z tej samej strony
+#   ASC_KEY_P8      — całość pliku AuthKey_XXXX.p8, od „-----BEGIN PRIVATE KEY-----"
+#                     do „-----END PRIVATE KEY-----"
+#
+# Uruchamianie: zakładka Actions → „iOS — TestFlight" → Run workflow.
+# Numer budowy (CFBundleVersion) to numer uruchomienia — Apple wymaga, żeby rósł.
+name: iOS — TestFlight
+
+on:
+  workflow_dispatch:
+    inputs:
+      wersja:
+        description: 'Wersja dla ludzi (CFBundleShortVersionString), np. 1.0.2'
+        required: true
+        default: '1.0.2'
+
+jobs:
+  testflight:
+    # Apple przyjmuje tylko paczki zbudowane z SDK iOS 26 lub nowszym
+    runs-on: macos-26
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Najnowszy Xcode 26 na maszynie
+        run: |
+          XCODE=$(ls -d /Applications/Xcode_26*.app | sort -V | tail -1)
+          test -n "$XCODE"
+          sudo xcode-select -s "$XCODE"
+          xcodebuild -version
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Zależności i pliki gry
+        run: |
+          npm ci
+          node build.js
+
+      - name: Synchronizacja projektu iOS i CocoaPods
+        run: |
+          npx cap sync ios
+          cd ios/App && pod install
+
+      - name: Klucz API App Store Connect
+        env:
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+        run: |
+          mkdir -p ~/private_keys
+          printf '%s\n' "$ASC_KEY_P8" > ~/private_keys/AuthKey_$ASC_KEY_ID.p8
+          grep -q 'BEGIN PRIVATE KEY' ~/private_keys/AuthKey_$ASC_KEY_ID.p8
+
+      # Archiwum bez podpisu; podpis dopiero przy eksporcie. Podpis automatyczny przy
+      # archiwum wymaga profilu deweloperskiego z zarejestrowanym urządzeniem, a zespół
+      # nie ma żadnego. Eksport do App Store Connect podpisuje profilem App Store,
+      # który urządzeń nie potrzebuje — tworzy go kluczem API.
+      - name: Archiwum (bez podpisu)
+        env:
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          WERSJA: ${{ github.event.inputs.wersja }}
+        run: |
+          xcodebuild archive \
+            -workspace ios/App/App.xcworkspace \
+            -scheme App \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -archivePath build/App.xcarchive \
+            DEVELOPMENT_TEAM="$APPLE_TEAM_ID" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            MARKETING_VERSION="$WERSJA" \
+            CURRENT_PROJECT_VERSION="${{ github.run_number }}"
+
+      - name: Wysyłka do App Store Connect (TestFlight)
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          cat > build/ExportOptions.plist <<EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0"><dict>
+            <key>method</key><string>app-store-connect</string>
+            <key>destination</key><string>upload</string>
+            <key>teamID</key><string>$APPLE_TEAM_ID</string>
+            <key>signingStyle</key><string>automatic</string>
+            <key>uploadSymbols</key><true/>
+            <key>manageAppVersionAndBuildNumber</key><false/>
+          </dict></plist>
+          EOF
+          xcodebuild -exportArchive \
+            -archivePath build/App.xcarchive \
+            -exportOptionsPlist build/ExportOptions.plist \
+            -exportPath build/export \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath ~/private_keys/AuthKey_$ASC_KEY_ID.p8 \
+            -authenticationKeyID "$ASC_KEY_ID" \
+            -authenticationKeyIssuerID "$ASC_ISSUER_ID"
+
+      - name: Sprzątanie klucza
+        if: always()
+        run: rm -rf ~/private_keys
