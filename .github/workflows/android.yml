@@ -1,0 +1,85 @@
+# Budowa Androida w chmurze i wysyłka do Google Play (ścieżka testów wewnętrznych).
+#
+# Sekrety repozytorium (Settings → Secrets and variables → Actions):
+#   ANDROID_KEYSTORE_BASE64   — plik ortus-release.jks zakodowany base64
+#   ANDROID_KEYSTORE_PASSWORD — hasło do magazynu kluczy
+#   ANDROID_KEY_ALIAS         — nazwa klucza (ortus)
+#   ANDROID_KEY_PASSWORD      — hasło klucza
+#   PLAY_SERVICE_ACCOUNT_JSON — klucz konta usługi Google Play (JSON, cała zawartość)
+#
+# Numer wersji (versionCode) to numer uruchomienia przepływu powiększony o stałą,
+# żeby nie zderzył się z wersjami wgranymi ręcznie (ostatnia ręczna: 5).
+name: Android — Google Play
+
+on:
+  workflow_dispatch:
+    inputs:
+      wersja:
+        description: 'Wersja dla ludzi (versionName), np. 1.0.4'
+        required: true
+        default: '1.0.4'
+      sciezka:
+        description: 'Ścieżka w Google Play'
+        required: true
+        default: 'internal'
+        type: choice
+        options: [internal, alpha, beta, production]
+
+jobs:
+  play:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Zależności
+        run: npm ci
+
+      - name: Synchronizacja projektu Android
+        run: npx cap sync android
+
+      - name: Klucz podpisu
+        env:
+          KS: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          KS_PASS: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PASS: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          mkdir -p android/keystore
+          echo "$KS" | base64 -d > android/keystore/ortus-release.jks
+          printf 'storeFile=keystore/ortus-release.jks\nstorePassword=%s\nkeyAlias=%s\nkeyPassword=%s\n' \
+            "$KS_PASS" "$KEY_ALIAS" "$KEY_PASS" > android/keystore.properties
+          test -s android/keystore/ortus-release.jks
+
+      - name: Budowa pakietu (.aab)
+        env:
+          WERSJA: ${{ github.event.inputs.wersja }}
+        run: |
+          cd android
+          KOD=$(( ${{ github.run_number }} + 100 ))
+          sed -i "s/versionCode [0-9]*/versionCode $KOD/" app/build.gradle
+          sed -i "s/versionName \"[^\"]*\"/versionName \"$WERSJA\"/" app/build.gradle
+          chmod +x gradlew
+          ./gradlew bundleRelease --no-daemon
+          ls -la app/build/outputs/bundle/release/
+
+      - name: Wysyłka do Google Play
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: pl.niekazmuliczyc.ortus
+          releaseFiles: android/app/build/outputs/bundle/release/app-release.aab
+          track: ${{ github.event.inputs.sciezka }}
+          status: completed
+
+      - name: Sprzątanie klucza
+        if: always()
+        run: rm -rf android/keystore android/keystore.properties
