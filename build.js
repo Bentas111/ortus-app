@@ -3,6 +3,7 @@
 const fs = require("fs"), path = require("path");
 // źródło gry: paczka webowa (na OneDrive); projekt aplikacji leży poza OneDrive, bo Gradle nie znosi „ó" w ścieżce
 const SRC = [path.join(__dirname, "..", "_pakiet", "ortografia"), "C:\\Users\\48607\\OneDrive\\Pulpit\\Audyt kotków\\_pakiet\\ortografia"].find(p => fs.existsSync(p));
+if (!SRC) { console.log("brak paczki webowej — zostawiam www/ bez zmian (tak jest w chmurze)"); process.exit(0); }
 const WWW = path.join(__dirname, "www");
 const cp = (f) => fs.copyFileSync(path.join(SRC, f), path.join(WWW, f));
 ["wordbank.js", "dyktanda.js", "support.js", "supabase-config.js"].forEach(cp);

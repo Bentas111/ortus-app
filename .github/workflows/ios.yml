@@ -42,10 +42,10 @@ jobs:
         with:
           node-version: 22
 
-      - name: Zależności i pliki gry
-        run: |
-          npm ci
-          node build.js
+      # build.js działa tylko lokalnie (składa www/ z paczki webowej na dysku właściciela).
+      # W chmurze bierzemy gotowe www/ z repozytorium.
+      - name: Zależności
+        run: npm ci
 
       - name: Synchronizacja projektu iOS i CocoaPods
         run: |
