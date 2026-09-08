@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,7 +11,7 @@
         <!-- AdMob: App ID Android. Poniżej testowe ID Google — zamień na własne z AdMob (ca-app-pub-…~…) -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713"
+            android:value="ca-app-pub-1505849560454642~8496389888"
         />
 
         <activity
@@ -46,4 +47,10 @@
     <!-- Permissions -->
 
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Aplikacja dla dzieci (program „Dla rodzin"): identyfikator reklamowy nie może być przesyłany.
+         Biblioteka AdMob dopisuje to uprawnienie automatycznie — usuwamy je przy scalaniu manifestów.
+         Reklamy działają dalej: są niespersonalizowane i oznaczone jako treść dla dzieci. -->
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove" />
+    <uses-permission android:name="android.permission.ACCESS_ADSERVICES_AD_ID" tools:node="remove" />
 </manifest>

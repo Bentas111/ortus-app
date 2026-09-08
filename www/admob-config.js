@@ -5,7 +5,7 @@
 // Dopóki testing = true, pokazują się reklamy testowe Google (nie zarabiają, ale nie łamią zasad).
 window.ORTUS_ADMOB = {
   enabled: true,
-  testing: true,
-  android: { banner: "ca-app-pub-3940256099942544/6300978111" },   // testowy baner Google
+  testing: false,
+  android: { banner: "ca-app-pub-1505849560454642/9140874833" },   // Ortuś baner (AdMob, 7.09.2026)
   ios:     { banner: "ca-app-pub-3940256099942544/2934735716" }    // testowy baner Google
 };

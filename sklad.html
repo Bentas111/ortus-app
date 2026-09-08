@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;padding:0;background:#fff}
+  #board{width:1080px;height:1920px;background:#FFF8F0;display:flex;flex-direction:column;overflow:hidden}
+  #head{background:#6C4BD6;min-height:330px;padding:74px 90px;box-sizing:border-box;display:flex;align-items:center;justify-content:center}
+  #head span{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:76px;line-height:1.16;color:#fff;text-align:center;text-wrap:balance}
+  #body{flex:1;padding:70px 90px 90px;box-sizing:border-box;display:flex}
+  #frame{flex:1;border-radius:44px;overflow:hidden;background:#FFF8F0;box-shadow:0 18px 44px rgba(44,36,72,.14);border:5px solid #DCCFF6;box-sizing:border-box;display:flex;align-items:center;justify-content:center}
+  #frame img{display:block;max-width:100%;max-height:100%;width:100%;height:auto;object-fit:contain}
+</style>
+</head>
+<body>
+<div id="board">
+  <div id="head"><span id="txt"></span></div>
+  <div id="body"><div id="frame"><img id="shot" alt=""></div></div>
+</div>
+<script>
+  const HASLA = [
+    "Ortografia bez wkuwania regułek",
+    "13 trybów ćwiczeń, klasy 1–6",
+    "360 dyktand czytanych na głos",
+    "Reguła po każdej odpowiedzi",
+    "Punkty, passa i 44 odznaki",
+    "Panel dla rodzica: co dziecko umie"
+  ];
+  const n = +(new URLSearchParams(location.search).get("n") || 1);
+  document.getElementById("txt").textContent = HASLA[n - 1];
+  document.getElementById("shot").src = "zrzut-" + n + ".png?v=" + Date.now();
+  window.gotowe = false;
+  Promise.all([document.fonts.ready, new Promise(r => { const i = document.getElementById("shot"); i.complete ? r() : (i.onload = r, i.onerror = r); })])
+    .then(() => setTimeout(() => { window.gotowe = true; }, 250));
+</script>
+</body>
+</html>
