@@ -19,7 +19,9 @@ end
 
 target 'App' do
   capacitor_pods
-  # Add your Pods here
+  # Moduł zgód Google: wtyczka AdMob 6.2.0 (dla Capacitora 6) używa starych nazw
+  # (UMPConsentStatus itd.), które w wersji 3.x zostały przemianowane. Trzymamy 2.x.
+  pod 'GoogleUserMessagingPlatform', '~> 2.3'
 end
 
 post_install do |installer|
