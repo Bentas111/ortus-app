@@ -196,6 +196,23 @@ window.ORTUS_FEATURES = {
 // end $$;
 // select cron.schedule('ortus-purge-inactive', '15 3 * * *', $$select ortus_purge_inactive()$$);
 //
+// -- 3e) USUWANIE KONTA Z POZIOMU APLIKACJI --------------------------------
+// -- Wymóg App Store (5.1.1(v)) i Google Play: skoro w aplikacji da się konto założyć,
+// -- musi też dać się je skasować bez pisania maili. Przycisk „Usuń konto” w menu
+// -- wywołuje tę funkcję. Kasuje wiersz w auth.users, a przez „on delete cascade”
+// -- znikają też postępy, wpis w rankingu i rejestr lekcji.
+// create or replace function ortus_delete_account() returns void
+// language plpgsql security definer set search_path = public, auth as $$
+// declare v_uid uuid := auth.uid();
+// begin
+//   if v_uid is null then raise exception 'brak zalogowanego uzytkownika'; end if;
+//   delete from ortus_ranking  where user_id = v_uid;
+//   delete from ortus_progress where user_id = v_uid;
+//   delete from auth.users     where id = v_uid;
+// end $$;
+// revoke all on function ortus_delete_account() from public, anon;
+// grant execute on function ortus_delete_account() to authenticated;
+//
 // -- 4) ADRES POWROTU PO LOGOWANIU ---------------------------------------
 //    Authentication → URL Configuration → Redirect URLs → dodaj:
 //    https://niekazmuliczyc.pl/gry/ortografia/**

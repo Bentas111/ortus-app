@@ -229,6 +229,7 @@ window.ortusConsentGrant = function(){};
           <sc-if value="{{ showRanking }}"><button onClick="{{ onOpenRanking }}" style="display:inline-flex;align-items:center;gap:8px;background:#fff;border:2px solid var(--accent-bd,#DCCFF6);color:var(--accent-d,#573AC0);font-family:'Baloo 2',sans-serif;font-weight:800;font-size:15px;padding:11px 18px;border-radius:16px;cursor:pointer" style-hover="transform:translateY(-2px)">🏆 Ranking</button></sc-if>
           <sc-if value="{{ loggedIn }}"><button onClick="{{ onRetrySync }}" style="{{ syncStyle }}" style-hover="transform:translateY(-2px)">{{ syncLabel }}</button></sc-if>
           <sc-if value="{{ loggedIn }}"><button onClick="{{ onSignOut }}" title="{{ userEmail }}" style="display:inline-flex;align-items:center;gap:8px;background:#fff;border:2px solid var(--accent-bd,#DCCFF6);color:var(--accent-d,#573AC0);font-family:'Baloo 2',sans-serif;font-weight:800;font-size:15px;padding:11px 18px;border-radius:16px;cursor:pointer" style-hover="transform:translateY(-2px)">Wyloguj</button></sc-if>
+          <sc-if value="{{ loggedIn }}"><button onClick="{{ onDeleteAccount }}" title="Usuń konto i dane zapisane w chmurze" style="display:inline-flex;align-items:center;gap:8px;background:#fff;border:2px solid #E3DCF0;color:#6E6488;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:15px;padding:11px 18px;border-radius:16px;cursor:pointer" style-hover="border-color:#C0304A;color:#C0304A">Usuń konto</button></sc-if>
         </div>
 
         <div style="background:#fff;border:1px solid #F0EAFB;border-radius:22px;padding:18px 18px 20px;box-shadow:0 12px 30px rgba(44,36,72,.07)">
@@ -2026,6 +2027,25 @@ class Component extends DCLogic {
     const sb=await this.supa(); if(sb){ try{ await sb.auth.signOut(); }catch(e){} }
     this.setState({user:null,screen:"menu"}, ()=>this.switchStore(""));   // dane poprzedniego konta zostają na jego półce
   }
+  // Apple i Google wymagają, żeby konto dało się skasować z samej aplikacji, bez pisania maili.
+  // Kasujemy postępy w chmurze, wpis w rankingu i samo konto; postęp na tym urządzeniu zostaje.
+  async deleteAccount(){
+    const u=this.state.user; if(!u) return;
+    try{
+      if(!window.confirm("Usunąć konto Ortusia?\n\nZnikną: postępy zapisane w chmurze, wpis w rankingu i samo konto.\nPostępy zapisane na tym urządzeniu zostają, ćwiczenia działają dalej bez logowania.")) return;
+      if(!window.confirm("Na pewno? Tego nie da się cofnąć.")) return;
+    }catch(e){ return; }
+    const sb=await this.supa();
+    if(!sb){ try{ window.alert("Brak połączenia z internetem — spróbuj jeszcze raz."); }catch(e){} return; }
+    try{
+      const {error}=await sb.rpc("ortus_delete_account");
+      if(error){ try{ window.alert("Nie udało się usunąć konta: "+this.plErr(error.message)); }catch(e){} return; }
+    }catch(e){ try{ window.alert("Nie udało się usunąć konta — sprawdź połączenie."); }catch(e2){} return; }
+    try{ localStorage.removeItem("ortus_profile_v1__"+u.id); localStorage.removeItem("ortus_progress_v1__"+u.id); }catch(e){}
+    try{ await sb.auth.signOut(); }catch(e){}
+    this.setState({user:null,screen:"menu"}, ()=>this.switchStore(""));
+    try{ window.alert("Konto usunięte."); }catch(e){}
+  }
   cloudBlob(){ const p=this.profile||{}; return {profile:p, progress:this.progress||{}, v:3, modifiedAt:p.modifiedAt||0, savedAt:Date.now()}; }
   // ---------- nick i ranking ----------
   nick(){ return (this.profile&&this.profile.nick)||""; }
@@ -2538,7 +2558,7 @@ class Component extends DCLogic {
         : {display:"inline-flex",alignItems:"center",gap:"8px",background:"#E6F7EC",border:"2px solid #7FCF9F",color:"#0F5C32",fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"15px",padding:"11px 18px",borderRadius:"16px",cursor:"pointer"};
       out.hasSyncMsg=!!s.syncMsg; out.syncMsg=s.syncMsg||"";
       out.onRetrySync=()=>this.flushSync();
-      out.onOpenAuth=()=>this.openAuth(); out.onSignOut=()=>this.signOut();
+      out.onOpenAuth=()=>this.openAuth(); out.onSignOut=()=>this.signOut(); out.onDeleteAccount=()=>this.deleteAccount();
       out.onOpenRanking=()=>this.openRanking();
       out.showRanking=this.rankingMode()!=="off";
       out.myNick=this.nick(); out.hasNick=!!this.nick();
