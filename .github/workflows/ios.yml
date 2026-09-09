@@ -81,7 +81,8 @@ jobs:
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
             MARKETING_VERSION="$WERSJA" \
-            CURRENT_PROJECT_VERSION="${{ github.run_number }}"
+            CURRENT_PROJECT_VERSION="${{ github.run_number }}" \
+            CODE_SIGN_ENTITLEMENTS="App/App.entitlements"
 
       - name: Wysyłka do App Store Connect (TestFlight)
         env:

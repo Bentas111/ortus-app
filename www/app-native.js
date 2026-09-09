@@ -70,4 +70,32 @@
   }
   if (document.readyState === "complete") setTimeout(startAds, 1500);
   else window.addEventListener("load", function () { setTimeout(startAds, 1500); });
+
+  // ---- Sign in with Apple natywnie ----------------------------------------
+  // W aplikacji Apple chce własnego okienka systemowego, nie przekierowania przez
+  // przeglądarkę. Apple dostaje skrót SHA-256 z jednorazowego ciągu, Supabase ten
+  // sam ciąg w oryginale — tak dowodzi, że token nie został podstawiony.
+  function losowyNonce() {
+    var b = new Uint8Array(16);
+    (window.crypto || {}).getRandomValues ? window.crypto.getRandomValues(b) : b.forEach(function (_, i) { b[i] = Math.floor(Math.random() * 256); });
+    return Array.prototype.map.call(b, function (x) { return ("0" + x.toString(16)).slice(-2); }).join("");
+  }
+  function skrot(tekst) {
+    return window.crypto.subtle.digest("SHA-256", new TextEncoder().encode(tekst)).then(function (buf) {
+      return Array.prototype.map.call(new Uint8Array(buf), function (x) { return ("0" + x.toString(16)).slice(-2); }).join("");
+    });
+  }
+  window.ortusAppleNative = function () {
+    var A = P.SignInWithApple;
+    if (!A || !A.authorize) return Promise.resolve(null);
+    var surowy = losowyNonce();
+    return skrot(surowy)
+      .then(function (h) {
+        return A.authorize({ clientId: "pl.niekazmuliczyc.ortus", redirectURI: window.ORTUS_AUTH_REDIRECT, scopes: "email name", nonce: h });
+      })
+      .then(function (r) {
+        var t = r && r.response && r.response.identityToken;
+        return t ? { token: t, nonce: surowy } : null;
+      });
+  };
 })();

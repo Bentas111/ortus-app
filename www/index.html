@@ -2027,6 +2027,17 @@ class Component extends DCLogic {
   async signInOAuth(provider){
     const sb=await this.supa(); if(!sb){ this.setState({authMsg:"Logowanie nie jest jeszcze skonfigurowane."}); return; }
     this.setState({authBusy:true,authMsg:""});
+    // w aplikacji Apple wymaga własnego okienka systemowego zamiast przekierowania
+    if(provider==="apple" && window.ortusAppleNative){
+      try{
+        const r=await window.ortusAppleNative();
+        if(r && r.token){
+          const {error}=await sb.auth.signInWithIdToken({provider:"apple", token:r.token, nonce:r.nonce});
+          this.setState({authBusy:false, authMsg: error? this.plErr(error.message) : ""});
+          return;
+        }
+      }catch(e){ this.setState({authBusy:false, authMsg:"Logowanie przez Apple zostało przerwane."}); return; }
+    }
     try{ const {data,error}=await sb.auth.signInWithOAuth({provider, options:{redirectTo: window.ORTUS_AUTH_REDIRECT, skipBrowserRedirect:true}}); if(error) throw error; if(data&&data.url) window.ortusOpenExternal(data.url); }
     catch(e){ this.setState({authBusy:false,authMsg:"Nie udało się otworzyć logowania."}); }
   }
