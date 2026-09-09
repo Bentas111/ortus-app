@@ -229,7 +229,6 @@ window.ortusConsentGrant = function(){};
           <sc-if value="{{ showRanking }}"><button onClick="{{ onOpenRanking }}" style="display:inline-flex;align-items:center;gap:8px;background:#fff;border:2px solid var(--accent-bd,#DCCFF6);color:var(--accent-d,#573AC0);font-family:'Baloo 2',sans-serif;font-weight:800;font-size:15px;padding:11px 18px;border-radius:16px;cursor:pointer" style-hover="transform:translateY(-2px)">🏆 Ranking</button></sc-if>
           <sc-if value="{{ loggedIn }}"><button onClick="{{ onRetrySync }}" style="{{ syncStyle }}" style-hover="transform:translateY(-2px)">{{ syncLabel }}</button></sc-if>
           <sc-if value="{{ loggedIn }}"><button onClick="{{ onSignOut }}" title="{{ userEmail }}" style="display:inline-flex;align-items:center;gap:8px;background:#fff;border:2px solid var(--accent-bd,#DCCFF6);color:var(--accent-d,#573AC0);font-family:'Baloo 2',sans-serif;font-weight:800;font-size:15px;padding:11px 18px;border-radius:16px;cursor:pointer" style-hover="transform:translateY(-2px)">Wyloguj</button></sc-if>
-          <sc-if value="{{ loggedIn }}"><button onClick="{{ onDeleteAccount }}" title="Usuń konto i dane zapisane w chmurze" style="display:inline-flex;align-items:center;gap:8px;background:#fff;border:2px solid #E3DCF0;color:#6E6488;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:15px;padding:11px 18px;border-radius:16px;cursor:pointer" style-hover="border-color:#C0304A;color:#C0304A">Usuń konto</button></sc-if>
         </div>
 
         <div style="background:#fff;border:1px solid #F0EAFB;border-radius:22px;padding:18px 18px 20px;box-shadow:0 12px 30px rgba(44,36,72,.07)">
@@ -317,6 +316,7 @@ window.ortusConsentGrant = function(){};
             <a href="https://niekazmuliczyc.pl/kontakt/">Kontakt</a>
           </div>
           <div style="margin-top:8px;font-size:12px">Pisownia według <a href="https://rjp.pan.pl/zasady-pisowni-i-interpunkcji-polskiej-2/" rel="noopener">zasad Rady Języka Polskiego</a> obowiązujących od 1 stycznia 2026 r. Na egzaminach CKE do 2030 r. akceptowany jest też dawny zapis.</div>
+          <sc-if value="{{ loggedIn }}"><div style="margin-top:10px;font-size:12px"><button onClick="{{ onDeleteAccount }}" title="Usuń konto i dane zapisane w chmurze" style="background:none;border:0;padding:0;font:inherit;color:#8A82A0;text-decoration:underline;cursor:pointer" style-hover="color:#C0304A">Usuń konto</button></div></sc-if>
         </div>
       </div>
     </sc-if>
