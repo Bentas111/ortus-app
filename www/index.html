@@ -52,6 +52,8 @@
 <style>
 *{box-sizing:border-box}
 html,body{margin:0}
+/* w aplikacji WKWebView pozwalał ciągnąć stronę w bok (gumowe odbicie), choć nic nie wystaje */
+html,body{overflow-x:hidden;overscroll-behavior-x:none;max-width:100%}
 body{background:#FFF8F0}
 a{color:var(--accent,#6C4BD6);text-decoration:none}
 a:hover{color:var(--accent-d,#573AC0)}
