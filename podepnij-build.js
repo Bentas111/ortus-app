@@ -14,7 +14,7 @@ const H = { Authorization: "Bearer " + jwt, "Content-Type": "application/json" }
 
 (async () => {
   const j = await (await fetch(API + "/v1/builds?filter[app]=6809715926&limit=5&fields[builds]=version,processingState", { headers: H })).json();
-  const b5 = (j.data || []).find(x => x.attributes.version === "7");
+  const b5 = (j.data || []).find(x => x.attributes.version === "9");
   if (!b5) { console.log("brak budowy 5"); return; }
   const r = await fetch(API + "/v1/appStoreVersions/" + WERSJA + "/relationships/build", {
     method: "PATCH", headers: H, body: JSON.stringify({ data: { type: "builds", id: b5.id } })

@@ -35,7 +35,7 @@
 	<true/>
 	<!-- AdMob: App ID iOS. Poniżej testowe ID Google — zamień na własne z AdMob (ca-app-pub-…~…) -->
 	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-3940256099942544~1458002511</string>
+	<string>ca-app-pub-1505849560454642~7672112006</string>
 	<key>SKAdNetworkItems</key>
 	<array>
 		<dict>
