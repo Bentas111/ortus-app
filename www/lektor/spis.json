@@ -1,0 +1,2166 @@
+{
+ "glos": "Arleta",
+ "model": "eleven_flash_v2_5",
+ "dyktanda": [
+  {
+   "nr": 1,
+   "tytul": "Mój piesek",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 2,
+   "tytul": "W babcinym ogrodzie",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 3,
+   "tytul": "Zima na sankach",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 4,
+   "tytul": "Na plaży",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 5,
+   "tytul": "Dzień Mamy",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 6,
+   "tytul": "Wycieczka do lasu",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 7,
+   "tytul": "Pierwszy dzień w szkole",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 8,
+   "tytul": "Leśne zwierzęta",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 9,
+   "tytul": "Rycerski turniej",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 10,
+   "tytul": "Tajemnica starego młyna",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 11,
+   "tytul": "Górska wyprawa",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 12,
+   "tytul": "Bezdroża o zmierzchu",
+   "klasa": 9,
+   "zdan": 5
+  },
+  {
+   "nr": 13,
+   "tytul": "Żuk w sitowiu",
+   "klasa": 9,
+   "zdan": 5
+  },
+  {
+   "nr": 14,
+   "tytul": "Na starym strychu",
+   "klasa": 9,
+   "zdan": 5
+  },
+  {
+   "nr": 15,
+   "tytul": "Kolorowa jesień",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 16,
+   "tytul": "W kuchni u babci",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 17,
+   "tytul": "Wieczór w cyrku",
+   "klasa": 5,
+   "zdan": 10
+  },
+  {
+   "nr": 18,
+   "tytul": "Wielkanocny poranek",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 19,
+   "tytul": "W ogrodzie zoologicznym",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 20,
+   "tytul": "Zmierzch nad grzęzawiskiem",
+   "klasa": 9,
+   "zdan": 5
+  },
+  {
+   "nr": 21,
+   "tytul": "Deszczowy dzień",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 22,
+   "tytul": "Podróż żaglowcem",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 23,
+   "tytul": "W bibliotece",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 24,
+   "tytul": "Pod rozgwieżdżonym niebem",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 25,
+   "tytul": "Strażacy w akcji",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 26,
+   "tytul": "Moje urodziny",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 27,
+   "tytul": "W muzeum przyrodniczym",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 28,
+   "tytul": "Wędrówka po ściernisku",
+   "klasa": 9,
+   "zdan": 5
+  },
+  {
+   "nr": 29,
+   "tytul": "Wiosna w sadzie",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 30,
+   "tytul": "Na wiejskim gospodarstwie",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 31,
+   "tytul": "Wigilijny wieczór",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 32,
+   "tytul": "Na rowerze",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 33,
+   "tytul": "Na nartach",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 34,
+   "tytul": "Przy karmniku",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 35,
+   "tytul": "Wyprawa do teatru",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 36,
+   "tytul": "Mój kotek",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 37,
+   "tytul": "Burza nad jeziorem",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 38,
+   "tytul": "Wyprawa do jaskini",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 39,
+   "tytul": "Na kwitnącej łące",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 40,
+   "tytul": "Włóczęga na moczarach",
+   "klasa": 9,
+   "zdan": 5
+  },
+  {
+   "nr": 41,
+   "tytul": "Na basenie",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 42,
+   "tytul": "Wizyta u dentysty",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 43,
+   "tytul": "Mój chomik",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 44,
+   "tytul": "Podróż pociągiem",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 45,
+   "tytul": "Zakupy z mamą",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 46,
+   "tytul": "Wieczorne ognisko",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 47,
+   "tytul": "Szkolne zawody sportowe",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 48,
+   "tytul": "Wichura nad miastem",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 49,
+   "tytul": "Moje akwarium",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 50,
+   "tytul": "Mroźny świt",
+   "klasa": 9,
+   "zdan": 5
+  },
+  {
+   "nr": 51,
+   "tytul": "Grzybobranie",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 52,
+   "tytul": "Dzień Babci i Dziadka",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 53,
+   "tytul": "Wycieczka do Krakowa",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 54,
+   "tytul": "Na lodowisku",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 55,
+   "tytul": "W parku rozrywki",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 56,
+   "tytul": "Sadzimy drzewko",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 57,
+   "tytul": "Na poczcie",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 58,
+   "tytul": "Wyprawa w Tatry",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 59,
+   "tytul": "Pierwszy śnieg",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 60,
+   "tytul": "W kinie",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 61,
+   "tytul": "Na działce",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 62,
+   "tytul": "Przy latarni morskiej",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 63,
+   "tytul": "Wyprawa w kosmos",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 64,
+   "tytul": "W piekarni",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 65,
+   "tytul": "W pasiece",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 66,
+   "tytul": "Leśne bezdroża",
+   "klasa": 9,
+   "zdan": 5
+  },
+  {
+   "nr": 67,
+   "tytul": "U weterynarza",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 68,
+   "tytul": "Jarmark bożonarodzeniowy",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 69,
+   "tytul": "Puszczanie latawca",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 70,
+   "tytul": "Kaczki na stawie",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 71,
+   "tytul": "Mecz piłki nożnej",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 72,
+   "tytul": "Spływ kajakowy",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 73,
+   "tytul": "Powitanie wiosny",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 74,
+   "tytul": "Zabawa w chowanego",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 75,
+   "tytul": "Jesienne zbiory",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 76,
+   "tytul": "Ponure trzęsawisko",
+   "klasa": 9,
+   "zdan": 5
+  },
+  {
+   "nr": 77,
+   "tytul": "Bal karnawałowy",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 78,
+   "tytul": "W cukierni",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 79,
+   "tytul": "Domek na drzewie",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 80,
+   "tytul": "W oceanarium",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 81,
+   "tytul": "W schronisku dla zwierząt",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 82,
+   "tytul": "Mrowisko",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 83,
+   "tytul": "Szkolne przedstawienie",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 84,
+   "tytul": "U fryzjera",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 85,
+   "tytul": "Zamieć śnieżna",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 86,
+   "tytul": "Opuszczony młyn zimą",
+   "klasa": 9,
+   "zdan": 5
+  },
+  {
+   "nr": 87,
+   "tytul": "Wycieczka do Warszawy",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 88,
+   "tytul": "W aptece",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 89,
+   "tytul": "Wiosenny strumyk",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 90,
+   "tytul": "W planetarium",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 91,
+   "tytul": "Nocleg pod namiotem",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 92,
+   "tytul": "Festyn rodzinny",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 93,
+   "tytul": "W Puszczy Białowieskiej",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 94,
+   "tytul": "W piaskownicy",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 95,
+   "tytul": "Żniwa na wsi",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 96,
+   "tytul": "Obserwujemy ptaki",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 97,
+   "tytul": "Legenda o zatopionym mieście",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 98,
+   "tytul": "W starej kuźni",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 99,
+   "tytul": "Ratownicy na plaży",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 100,
+   "tytul": "Wiosenna odwilż",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 101,
+   "tytul": "Na zamkowych ruinach",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 102,
+   "tytul": "Nad rzeką",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 103,
+   "tytul": "Tama bobrów",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 104,
+   "tytul": "Stary parowóz",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 105,
+   "tytul": "Wyprawa na biegun",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 106,
+   "tytul": "Moje śniadanie",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 107,
+   "tytul": "Wycieczka do Gdańska",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 108,
+   "tytul": "Zgiełk jarmarku",
+   "klasa": 9,
+   "zdan": 5
+  },
+  {
+   "nr": 109,
+   "tytul": "Noc świętojańska",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 110,
+   "tytul": "Koncert szkolny",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 111,
+   "tytul": "Wiosenne porządki",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 112,
+   "tytul": "Tęcza po burzy",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 113,
+   "tytul": "Wyprawa do dżungli",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 114,
+   "tytul": "Moja ulubiona zabawka",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 115,
+   "tytul": "Rejs po Mazurach",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 116,
+   "tytul": "Górski wodospad",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 117,
+   "tytul": "Zwiedzanie Wrocławia",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 118,
+   "tytul": "W muzeum sztuki",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 119,
+   "tytul": "Lot balonem",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 120,
+   "tytul": "Zawieja na trakcie",
+   "klasa": 9,
+   "zdan": 5
+  },
+  {
+   "nr": 121,
+   "tytul": "Pierwsza jazda konna",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 122,
+   "tytul": "W akwaparku",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 123,
+   "tytul": "Pierwszy lot samolotem",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 124,
+   "tytul": "Sadzę kwiatek",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 125,
+   "tytul": "Świat dinozaurów",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 126,
+   "tytul": "U garncarza",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 127,
+   "tytul": "Nurkowanie na rafie",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 128,
+   "tytul": "Pieczemy ciasteczka",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 129,
+   "tytul": "Na afrykańskiej sawannie",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 130,
+   "tytul": "Wiosenne ptaki",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 131,
+   "tytul": "Legenda o zaklętym skarbie",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 132,
+   "tytul": "U leśniczego",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 133,
+   "tytul": "Wyprawa na pustynię",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 134,
+   "tytul": "Zbieramy zioła",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 135,
+   "tytul": "W dziadkowej stolarni",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 136,
+   "tytul": "Bałwan",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 137,
+   "tytul": "Zaćmienie Słońca",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 138,
+   "tytul": "Wieczór z książką",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 139,
+   "tytul": "W porcie",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 140,
+   "tytul": "W straży pożarnej",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 141,
+   "tytul": "Turniej szachowy",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 142,
+   "tytul": "Gramy w piłkę",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 143,
+   "tytul": "Dożynki",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 144,
+   "tytul": "U zegarmistrza",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 145,
+   "tytul": "W winnicy",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 146,
+   "tytul": "Mroźne łowy",
+   "klasa": 9,
+   "zdan": 5
+  },
+  {
+   "nr": 147,
+   "tytul": "W parku linowym",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 148,
+   "tytul": "Mój rysunek",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 149,
+   "tytul": "W obserwatorium astronomicznym",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 150,
+   "tytul": "U szewca",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 151,
+   "tytul": "Wielka ulewa",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 152,
+   "tytul": "Poranek na wsi",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 153,
+   "tytul": "Spotkanie z pisarzem",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 154,
+   "tytul": "Zabawa klockami",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 155,
+   "tytul": "Karnawał w Wenecji",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 156,
+   "tytul": "W teatrze lalek",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 157,
+   "tytul": "Sprzątanie Świata",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 158,
+   "tytul": "W kopalni soli",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 159,
+   "tytul": "Rowerowa wyprawa",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 160,
+   "tytul": "Pomagam mamie",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 161,
+   "tytul": "W ogrodzie botanicznym",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 162,
+   "tytul": "W szklarni",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 163,
+   "tytul": "Domowy sok malinowy",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 164,
+   "tytul": "Sroga zima na wsi",
+   "klasa": 9,
+   "zdan": 5
+  },
+  {
+   "nr": 165,
+   "tytul": "Pieczenie pierników",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 166,
+   "tytul": "Budzik dzwoni",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 167,
+   "tytul": "W skansenie",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 168,
+   "tytul": "Zbieramy jagody",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 169,
+   "tytul": "Mały detektyw",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 170,
+   "tytul": "Robimy masło",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 171,
+   "tytul": "Mecz siatkówki",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 172,
+   "tytul": "Jesienne liście",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 173,
+   "tytul": "Zima nad morzem",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 174,
+   "tytul": "Kominiarz",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 175,
+   "tytul": "Noc w zoo",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 176,
+   "tytul": "Kiszenie kapusty",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 177,
+   "tytul": "W hucie szkła",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 178,
+   "tytul": "Robimy sałatkę",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 179,
+   "tytul": "Poranny połów",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 180,
+   "tytul": "Sad wiśniowy",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 181,
+   "tytul": "W kopalni węgla",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 182,
+   "tytul": "Festiwal latawców",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 183,
+   "tytul": "Wystawa psów rasowych",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 184,
+   "tytul": "Wieczorna kąpiel",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 185,
+   "tytul": "Podróż metrem",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 186,
+   "tytul": "Sprzątam pokój",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 187,
+   "tytul": "Sianokosy",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 188,
+   "tytul": "Odlot żurawi",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 189,
+   "tytul": "Pierwszy dzień wakacji",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 190,
+   "tytul": "Młyn nad strumieniem",
+   "klasa": 9,
+   "zdan": 5
+  },
+  {
+   "nr": 191,
+   "tytul": "Pokaz sztucznych ogni",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 192,
+   "tytul": "Sadzimy ziemniaki",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 193,
+   "tytul": "Spływ tratwą przez Pieniny",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 194,
+   "tytul": "Robimy sernik",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 195,
+   "tytul": "Wieczór z grami planszowymi",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 196,
+   "tytul": "Poranna gimnastyka",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 197,
+   "tytul": "Na basenach termalnych",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 198,
+   "tytul": "Robimy pizzę",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 199,
+   "tytul": "Opowieści przy kominku",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 200,
+   "tytul": "Nocny gość",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 201,
+   "tytul": "W warsztacie samochodowym",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 202,
+   "tytul": "Zima za oknem",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 203,
+   "tytul": "W stadninie koni",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 204,
+   "tytul": "Obserwujemy motyle",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 205,
+   "tytul": "Spotkanie z podróżnikiem",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 206,
+   "tytul": "Lato w mieście",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 207,
+   "tytul": "Wielkie pranie",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 208,
+   "tytul": "Moja rodzina",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 209,
+   "tytul": "W mennicy",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 210,
+   "tytul": "Spotkanie z policjantem",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 211,
+   "tytul": "Legenda o jeziorze",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 212,
+   "tytul": "Zakładamy ogródek",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 213,
+   "tytul": "Malujemy pokój",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 214,
+   "tytul": "Jesienny las",
+   "klasa": 9,
+   "zdan": 5
+  },
+  {
+   "nr": 215,
+   "tytul": "Na targu staroci",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 216,
+   "tytul": "W pracowni dziadka",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 217,
+   "tytul": "W Bieszczadach",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 218,
+   "tytul": "Dzień Drzewa",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 219,
+   "tytul": "Porządki w garażu",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 220,
+   "tytul": "Karmię ptaki",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 221,
+   "tytul": "Na ruchomych wydmach",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 222,
+   "tytul": "Zbiórka makulatury",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 223,
+   "tytul": "Pokaz iluzjonisty",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 224,
+   "tytul": "U fotografa",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 225,
+   "tytul": "Naprawiamy rower",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 226,
+   "tytul": "Wiosenne kwiaty",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 227,
+   "tytul": "Szkolny Dzień Talentów",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 228,
+   "tytul": "U okulisty",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 229,
+   "tytul": "W parku miniatur",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 230,
+   "tytul": "Na wiejskim targu",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 231,
+   "tytul": "Fala upałów",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 232,
+   "tytul": "Na hulajnodze",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 233,
+   "tytul": "W wiosce rybackiej",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 234,
+   "tytul": "Wzburzona rzeka",
+   "klasa": 9,
+   "zdan": 5
+  },
+  {
+   "nr": 235,
+   "tytul": "Wieczór w operze",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 236,
+   "tytul": "Pieczemy chleb",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 237,
+   "tytul": "W gospodarstwie ekologicznym",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 238,
+   "tytul": "Robimy kanapki",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 239,
+   "tytul": "Podchody w lesie",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 240,
+   "tytul": "W ogrodzie z tatą",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 241,
+   "tytul": "Z ornitologiem na bagnach",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 242,
+   "tytul": "Wyjazd na kolonie",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 243,
+   "tytul": "Na zbiórce harcerskiej",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 244,
+   "tytul": "Wieczorna bajka",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 245,
+   "tytul": "Konkurs recytatorski",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 246,
+   "tytul": "Zawody wędkarskie",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 247,
+   "tytul": "W muzeum wojskowym",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 248,
+   "tytul": "Budujemy budę dla psa",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 249,
+   "tytul": "Dzień otwarty w szkole",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 250,
+   "tytul": "Gramy w berka",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 251,
+   "tytul": "Wezbrana rzeka wiosną",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 252,
+   "tytul": "Pomagamy sąsiadce",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 253,
+   "tytul": "Burza w górach",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 254,
+   "tytul": "Smażymy naleśniki",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 255,
+   "tytul": "Malowanie pisanek",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 256,
+   "tytul": "Mój młodszy brat",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 257,
+   "tytul": "Przygotowania do Wigilii",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 258,
+   "tytul": "Sroga zima w gospodarstwie",
+   "klasa": 9,
+   "zdan": 5
+  },
+  {
+   "nr": 259,
+   "tytul": "Wyprawa łodzią podwodną",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 260,
+   "tytul": "Ozdoby choinkowe",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 261,
+   "tytul": "Mecz koszykówki",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 262,
+   "tytul": "Zabawa lalkami",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 263,
+   "tytul": "Andrzejkowy wieczór",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 264,
+   "tytul": "Mikołajki",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 265,
+   "tytul": "W pracowni tkackiej",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 266,
+   "tytul": "Lekcja gotowania",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 267,
+   "tytul": "Sadzenie lasu",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 268,
+   "tytul": "Nasz szczeniak",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 269,
+   "tytul": "Na placu budowy",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 270,
+   "tytul": "Zabawa w śniegu",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 271,
+   "tytul": "Zwiedzanie zamku Malbork",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 272,
+   "tytul": "Na lotnisku",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 273,
+   "tytul": "W pracowni krawieckiej",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 274,
+   "tytul": "Mój ogródek",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 275,
+   "tytul": "Szkolne jasełka",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 276,
+   "tytul": "Ubieramy choinkę",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 277,
+   "tytul": "Ratownicy górscy",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 278,
+   "tytul": "Deszczowy spacer",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 279,
+   "tytul": "Robimy pierogi",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 280,
+   "tytul": "Kolorowe balony",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 281,
+   "tytul": "Spotkanie z aktorem",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 282,
+   "tytul": "W kuźni",
+   "klasa": 9,
+   "zdan": 5
+  },
+  {
+   "nr": 283,
+   "tytul": "Podróż w czasie",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 284,
+   "tytul": "Dzień u cioci",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 285,
+   "tytul": "Pokaz tresury psów",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 286,
+   "tytul": "Jazda na wrotkach",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 287,
+   "tytul": "W palmiarni",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 288,
+   "tytul": "Zbieramy kasztany",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 289,
+   "tytul": "Legenda o zaklętym dzwonie",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 290,
+   "tytul": "Gra w klasy",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 291,
+   "tytul": "W sklepie zoologicznym",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 292,
+   "tytul": "Jabłka w sadzie",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 293,
+   "tytul": "Zawody lekkoatletyczne",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 294,
+   "tytul": "W przedszkolu brata",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 295,
+   "tytul": "Spotkanie z żeglarzem",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 296,
+   "tytul": "Nasz kot Filemon",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 297,
+   "tytul": "Lekcja pierwszej pomocy",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 298,
+   "tytul": "Mój tata",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 299,
+   "tytul": "Spotkanie z astronautą",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 300,
+   "tytul": "Ślimaki po deszczu",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 301,
+   "tytul": "Wielkanocna niedziela",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 302,
+   "tytul": "Sprzątamy klasę",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 303,
+   "tytul": "Zawody łyżwiarskie",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 304,
+   "tytul": "Zima w lesie",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 305,
+   "tytul": "Nauka gry na pianinie",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 306,
+   "tytul": "Biedronki",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 307,
+   "tytul": "U stóp wulkanu",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 308,
+   "tytul": "Cztery pory roku",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 309,
+   "tytul": "Rodzinny grill",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 310,
+   "tytul": "Mroźna głusza",
+   "klasa": 9,
+   "zdan": 5
+  },
+  {
+   "nr": 311,
+   "tytul": "W zimowym parku",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 312,
+   "tytul": "Jesienny wiatr",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 313,
+   "tytul": "Na bezludnej wyspie",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 314,
+   "tytul": "Robimy maski karnawałowe",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 315,
+   "tytul": "Nasz listonosz",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 316,
+   "tytul": "Kwiaty na balkonie",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 317,
+   "tytul": "Kąpiel w jeziorze",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 318,
+   "tytul": "Zbieramy grzyby",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 319,
+   "tytul": "W kabinie pilota",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 320,
+   "tytul": "Hodowla królików",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 321,
+   "tytul": "W delfinarium",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 322,
+   "tytul": "Mój plecak",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 323,
+   "tytul": "Deszczowa niedziela",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 324,
+   "tytul": "Dzień Dziecka",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 325,
+   "tytul": "Poszukiwacze bursztynu",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 326,
+   "tytul": "Klasowa wycieczka",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 327,
+   "tytul": "Nauka pływania",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 328,
+   "tytul": "Idę spać",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 329,
+   "tytul": "Święto Niepodległości",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 330,
+   "tytul": "Nasze barwy narodowe",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 331,
+   "tytul": "Nad stawem",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 332,
+   "tytul": "Zimowe wędkowanie",
+   "klasa": 9,
+   "zdan": 5
+  },
+  {
+   "nr": 333,
+   "tytul": "Nocne życie lasu",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 334,
+   "tytul": "Nowy kolega",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 335,
+   "tytul": "U babci w mieście",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 336,
+   "tytul": "Robimy budyń",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 337,
+   "tytul": "W mleczarni",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 338,
+   "tytul": "Zbieramy muszelki",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 339,
+   "tytul": "Sztorm na morzu",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 340,
+   "tytul": "Szkolna dyskoteka",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 341,
+   "tytul": "Rodzinny piknik",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 342,
+   "tytul": "Na wystawie kwiatów",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 343,
+   "tytul": "Sadzimy warzywa",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 344,
+   "tytul": "Chmurki na niebie",
+   "klasa": 1,
+   "zdan": 6
+  },
+  {
+   "nr": 345,
+   "tytul": "Wyprawa na Antarktydę",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 346,
+   "tytul": "Nasza gazetka szkolna",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 347,
+   "tytul": "Nauka jazdy na rowerze",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 348,
+   "tytul": "Karmimy zwierzęta na wsi",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 349,
+   "tytul": "Legenda o zaklętej księżniczce",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 350,
+   "tytul": "W kinie na filmie 3D",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 351,
+   "tytul": "Mroźny poranek",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 352,
+   "tytul": "Sanki na górce",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 353,
+   "tytul": "Świt nad rozlewiskiem",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 354,
+   "tytul": "W kwiaciarni",
+   "klasa": 3,
+   "zdan": 8
+  },
+  {
+   "nr": 355,
+   "tytul": "Konkurs plastyczny",
+   "klasa": 4,
+   "zdan": 9
+  },
+  {
+   "nr": 356,
+   "tytul": "Dawne rzemiosło",
+   "klasa": 9,
+   "zdan": 5
+  },
+  {
+   "nr": 357,
+   "tytul": "Festyn ludowy",
+   "klasa": 5,
+   "zdan": 11
+  },
+  {
+   "nr": 358,
+   "tytul": "List do Mikołaja",
+   "klasa": 2,
+   "zdan": 7
+  },
+  {
+   "nr": 359,
+   "tytul": "Ostatni dzień wakacji",
+   "klasa": 6,
+   "zdan": 12
+  },
+  {
+   "nr": 360,
+   "tytul": "Nasz szkolny ogród",
+   "klasa": 3,
+   "zdan": 8
+  }
+ ]
+}

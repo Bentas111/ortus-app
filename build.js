@@ -8,6 +8,18 @@ const WWW = path.join(__dirname, "www");
 const cp = (f) => fs.copyFileSync(path.join(SRC, f), path.join(WWW, f));
 ["wordbank.js", "dyktanda.js", "support.js", "supabase-config.js"].forEach(cp);
 fs.copyFileSync(path.join(__dirname, "app-native.js"), path.join(WWW, "app-native.js"));
+// nagrania lektora do dyktand — kopiujemy tylko to, czego brakuje albo co się zmieniło
+(function lektor() {
+  const zrod = path.join(SRC, "lektor"), cel = path.join(WWW, "lektor");
+  if (!fs.existsSync(zrod)) { console.log("brak katalogu lektor — pomijam"); return; }
+  fs.mkdirSync(cel, { recursive: true });
+  let nowe = 0;
+  for (const f of fs.readdirSync(zrod)) {
+    const a = path.join(zrod, f), b = path.join(cel, f);
+    if (!fs.existsSync(b) || fs.statSync(b).size !== fs.statSync(a).size) { fs.copyFileSync(a, b); nowe++; }
+  }
+  console.log("ok: lektor (" + fs.readdirSync(cel).length + " plików, skopiowano " + nowe + ")");
+})();
 
 let s = fs.readFileSync(path.join(SRC, "index.html"), "utf8");
 let n = 0;

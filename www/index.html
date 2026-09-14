@@ -1847,11 +1847,33 @@ class Component extends DCLogic {
   }
   nextDict(){ this.stopSpeech(); const d=this.pickDict(); if(d) this.setDict(d); }
   onDictConfirm(){ this.confirmDict(); }
-  stopSpeech(){ if(typeof window!=="undefined" && window.speechSynthesis){ try{window.speechSynthesis.cancel();}catch(e){} } }
+  stopSpeech(){
+    if(typeof window!=="undefined" && window.speechSynthesis){ try{window.speechSynthesis.cancel();}catch(e){} }
+    if(this._lektor){ try{ this._lektor.pause(); this._lektor.currentTime=0; }catch(e){} this._lektor=null; }
+  }
+  // dyktanda czyta nagrany lektor; gdyby pliku zabrakło, wraca syntezator z urządzenia
+  dictAudioUrl(){
+    const all=(typeof window!=="undefined" && window.ORTUS_DICTATIONS)||[];
+    const i=all.indexOf(this.state.dictItem); if(i<0) return "";
+    const nr=n=>String(n).padStart(2,"0");
+    return "lektor/d"+String(i+1).padStart(3,"0")+"-s"+nr((this.state.dictIdx||0)+1)+".mp3";
+  }
   dictSpeakCurrent(){
     const s=this.state, sent=s.dictSent||[];
     const txt=sent[s.dictIdx||0]; if(!txt) return;
     this.setState({dictStarted:true});
+    const url=this.dictAudioUrl();
+    if(url){
+      this.stopSpeech();
+      try{
+        const a=new Audio(url); this._lektor=a;
+        a.playbackRate=s.dyslexia?0.85:1;
+        const zapas=()=>{ if(this._lektor===a) this._lektor=null; this.speakText(txt); };
+        a.onerror=zapas;
+        const p=a.play(); if(p&&p.catch) p.catch(zapas);
+        return;
+      }catch(e){}
+    }
     this.speakText(txt);
   }
   dictNextSentence(){
