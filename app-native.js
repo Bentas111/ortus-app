@@ -57,17 +57,55 @@
     var cfg = window.ORTUS_ADMOB, A = P.AdMob;
     if (!cfg || !cfg.enabled || !A || !C.getPlatform) return;
     var plat = C.getPlatform(); if (plat !== "android" && plat !== "ios") return;
-    var unit = (cfg[plat] || {}).banner; if (!unit) return;
-    A.addListener("bannerAdSizeChanged", function (s) {
+    var ids = cfg[plat] || {};
+    if (ids.banner) A.addListener("bannerAdSizeChanged", function (s) {
       var h = (s && s.height) ? s.height : 0;
       document.body.style.paddingBottom = h ? (h + 8) + "px" : "";
     });
     A.initialize({ tagForChildDirectedTreatment: true, tagForUnderAgeOfConsent: true, maxAdContentRating: "G" })
       .then(function () {
-        return A.showBanner({ adId: unit, adSize: "ADAPTIVE_BANNER", position: "BOTTOM_CENTER", margin: 0, isTesting: !!cfg.testing, npa: true });
+        pelnoekranowa.wlacz(A, ids.pelnoekranowa, cfg);
+        if (!ids.banner) return;
+        return A.showBanner({ adId: ids.banner, adSize: "ADAPTIVE_BANNER", position: "BOTTOM_CENTER", margin: 0, isTesting: !!cfg.testing, npa: true });
       })
       .catch(function (e) { console.warn("AdMob:", e && e.message ? e.message : e); });
   }
+
+  // Reklama pełnoekranowa — tylko po skończonej lekcji.
+  // Google Play zabrania takich reklam przy starcie aplikacji i w trakcie zabawy, więc jedyne
+  // miejsce, w którym ją pokazujemy, to ekran podsumowania. Do tego limit czasu i pierwsze
+  // lekcje bez przerywnika, żeby dziecko zdążyło wejść w rytm.
+  var pelnoekranowa = {
+    A: null, unit: "", cfg: null, gotowa: false, ostatnia: 0, lekcje: 0,
+    wlacz: function (A, unit, cfg) {
+      if (!unit) return;                       // brak jednostki = format wyłączony
+      this.A = A; this.unit = unit; this.cfg = cfg;
+      var self = this;
+      A.addListener("interstitialAdLoaded", function () { self.gotowa = true; });
+      A.addListener("interstitialAdFailedToLoad", function () { self.gotowa = false; });
+      A.addListener("interstitialAdDismissed", function () { self.gotowa = false; self.przygotuj(); });
+      this.przygotuj();
+    },
+    przygotuj: function () {
+      if (!this.A || !this.unit) return;
+      var self = this;
+      this.A.prepareInterstitial({ adId: this.unit, isTesting: !!this.cfg.testing, npa: true })
+        .then(function () { self.gotowa = true; })
+        .catch(function () { self.gotowa = false; });
+    },
+    poLekcji: function () {
+      this.lekcje++;
+      if (!this.A || !this.unit) return;
+      if (this.lekcje <= (this.cfg.lekcjiPrzedPierwsza || 0)) return;
+      if (Date.now() - this.ostatnia < (this.cfg.odstepPelnoekranowej || 0)) return;
+      if (!this.gotowa) { this.przygotuj(); return; }
+      this.ostatnia = Date.now(); this.gotowa = false;
+      var self = this;
+      this.A.showInterstitial().catch(function () { self.przygotuj(); });
+    }
+  };
+  // aplikacja woła to po zamknięciu lekcji; na stronie www funkcji nie ma i nic się nie dzieje
+  window.ortusLessonDone = function () { try { pelnoekranowa.poLekcji(); } catch (e) {} };
   if (document.readyState === "complete") setTimeout(startAds, 1500);
   else window.addEventListener("load", function () { setTimeout(startAds, 1500); });
 

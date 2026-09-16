@@ -1613,7 +1613,7 @@ class Component extends DCLogic {
   toggleWord(i){ if(this.state.answered) return; this.setState(s=>({sel: s.sel.includes(i)? s.sel.filter(x=>x!==i) : [...s.sel,i]})); }
   check(){ if(this.state.answered) return; const q=this.cur(); const want=[...q.c].sort().join(","); const got=[...this.state.sel].sort().join(","); this.resolve(want===got); }
   onTick(){ const s=this.state; if(s.screen!=="exercise"||s.mode==="study"||s.mode==="exam"||!s.challenge||s.answered||!s.set.length) return; if(s.timeLeft<=1){ this.resolve(false,{timeLeft:0}); } else { this.setState({timeLeft:s.timeLeft-1}); } }
-  next(){ const s=this.state; if(s.qIndex>=s.total-1){ const res=this.finalizeLesson(); this.setState({screen:"summary",lessonResult:res}); return; } this.setState({qIndex:s.qIndex+1,answered:false,correct:false,pick:null,sel:[],showRule:false,comboFlash:0,timeLeft:this.timeMax(),timeMax:this.timeMax()}); }
+  next(){ const s=this.state; if(s.qIndex>=s.total-1){ const res=this.finalizeLesson(); this.setState({screen:"summary",lessonResult:res}); try{ window.ortusLessonDone && window.ortusLessonDone(); }catch(e){} return; } this.setState({qIndex:s.qIndex+1,answered:false,correct:false,pick:null,sel:[],showRule:false,comboFlash:0,timeLeft:this.timeMax(),timeMax:this.timeMax()}); }
   studyNext(rec){
     const s=this.state, q=this.cur();
     if(rec && q && q.full){
@@ -1647,6 +1647,7 @@ class Component extends DCLogic {
     if(this.state.user){ this.syncUp(); }
     this.track("nauka_ukonczona",{klasa:this.state.level||"",slowa:this.state.total});
     this.setState({screen:"summary", lessonResult:{gained:gained, perfect:false, newly:newly, goalMet:false, bonus:0, study:true, known:known}});
+    try{ window.ortusLessonDone && window.ortusLessonDone(); }catch(e){}
   }
   back(){ if(typeof window!=="undefined" && window.speechSynthesis){ try{window.speechSynthesis.cancel();}catch(e){} } this.setState({screen:"menu"}); }
   toggleRule(){ this.setState(s=>({showRule:!s.showRule})); }

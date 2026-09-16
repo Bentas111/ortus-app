@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;padding:0;background:#fff}
+  #board{width:1080px;height:1350px;background:linear-gradient(180deg,#F1E9FF 0%,#F6F0FA 48%,#FFF8F0 100%);
+         display:flex;flex-direction:column;align-items:center;overflow:hidden;position:relative}
+  #head{width:960px;padding:64px 0 26px;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:12px}
+  #head h1{margin:0;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:68px;line-height:1.12;color:#573AC0;text-align:center;text-wrap:balance}
+  #head p{margin:0;font-family:'Nunito',sans-serif;font-weight:700;font-size:31px;line-height:1.3;color:#6B6285;text-align:center;text-wrap:balance}
+  #frame{background:#FFF8F0;border:5px solid #DCCFF6;border-radius:44px;box-shadow:0 22px 52px rgba(87,58,192,.15);
+         overflow:hidden;flex:none}
+  #frame img{display:block;width:100%;height:100%;object-fit:cover;object-position:top center}
+  #stopka{position:absolute;left:0;right:0;bottom:30px;text-align:center;
+          font-family:'Nunito',sans-serif;font-weight:800;font-size:27px;color:#8A80A6}
+</style>
+</head>
+<body>
+<div id="board">
+  <div id="head"><h1 id="tyt"></h1><p id="pod"></p></div>
+  <div id="frame"><img id="shot" alt=""></div>
+  <div id="stopka">Ortuś · niekazmuliczyc.pl/gry/ortografia</div>
+</div>
+<script>
+  const KARTY = [
+    { t: "Ortografia bez wkuwania regułek",
+      p: "Po każdej odpowiedzi Ortuś tłumaczy, dlaczego tak się to pisze." },
+    { t: "360 dyktand czytanych na głos",
+      p: "Zdanie po zdaniu, we własnym tempie — nikt nie musi stać nad dzieckiem z kartką." },
+    { t: "Rodzic widzi, co dziecko umie",
+      p: "Podsumowanie tygodnia: co opanowane, a gdzie warto zajrzeć w pierwszej kolejności." },
+    { t: "13 rodzajów ćwiczeń, klasy 1–6",
+      p: "ó/u, rz/ż, ch/h, ą/ę, pisownia „nie”, wielka litera, przecinki i dyktanda." }
+  ];
+  const n = +(new URLSearchParams(location.search).get("n") || 1);
+  document.getElementById("tyt").textContent = KARTY[n - 1].t;
+  document.getElementById("pod").textContent = KARTY[n - 1].p;
+  const img = document.getElementById("shot"), frame = document.getElementById("frame");
+
+  window.gotowe = false;
+  function ulóż() {
+    const head = document.getElementById("head").getBoundingClientRect().height;
+    const MAXW = 940, MAXH = 1350 - head - 96;          // 96 px zostaje na stopkę
+    let r = img.naturalWidth / img.naturalHeight;        // proporcje zrzutu
+    // bardzo długie ekrany kadrujemy od góry, żeby nie zrobiły się paskiem
+    const rMin = 0.52;
+    if (r < rMin) r = rMin;
+    let w = Math.round(MAXH * r), h = MAXH;
+    if (w > MAXW) { w = MAXW; h = Math.round(MAXW / r); }
+    frame.style.width = w + "px"; frame.style.height = h + "px";
+    // gdy zrzut jest szerszy niż ramka, nie ma czego kadrować — pokazujemy w całości
+    img.style.objectFit = (img.naturalWidth / img.naturalHeight > r - 0.001) ? "contain" : "cover";
+  }
+  img.onload = () => { ulóż(); document.fonts.ready.then(() => setTimeout(() => { ulóż(); window.gotowe = true; }, 350)); };
+  img.onerror = () => { window.gotowe = true; };
+  img.src = "fb-" + n + ".png?v=" + Date.now();
+</script>
+</body>
+</html>
