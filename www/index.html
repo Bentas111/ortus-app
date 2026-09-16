@@ -312,7 +312,7 @@ window.ortusConsentGrant = function(){};
           <div style="font-weight:700;margin-bottom:6px">Ortuś — darmowe ćwiczenia z ortografii dla klas 1–6.</div>
           <div>
             <a href="https://niekazmuliczyc.pl/">Strona główna</a> ·
-            <a href="https://niekazmuliczyc.pl/gry/">Inne gry</a> ·
+            <a href="https://niekazmuliczyc.pl/gry-edukacyjne-dla-dzieci-online/">Inne gry</a> ·
             <a href="https://niekazmuliczyc.pl/polityka-prywatnosci/">Prywatność</a> ·
             <a href="https://niekazmuliczyc.pl/regulamin/">Regulamin</a> ·
             <a href="https://niekazmuliczyc.pl/kontakt/">Kontakt</a>
@@ -1823,6 +1823,26 @@ class Component extends DCLogic {
   }
   dictList(){ const all=(typeof window!=="undefined" && window.ORTUS_DICTATIONS)||[]; const L=this.state.level; const gr= L==="1-2"?[1,2]:L==="3-4"?[3,4]:[5,6,9]; return all.filter(d=>gr.indexOf(d[1])>=0); }
   splitSentences(text){ return String(text||"").split(/(?<=[.!?])\s+/).map(x=>x.trim()).filter(Boolean); }
+  // Rozmiar pisma dla wyrazu w ćwiczeniu. „ogólnokształcący” w 48 px nie mieści się na telefonie
+  // i łamie się w połowie — a dziecko ma zobaczyć całe słowo naraz. Zjeżdżamy więc z rozmiarem tak,
+  // żeby najdłuższy człon (człony rozdzielają spacje i dywizy — tam wiersz może się złamać) zmieścił
+  // się w szerokości karty. 0,55 to zmierzona średnia szerokość znaku Baloo 2 w wersji grubej.
+  wordFontSize(text, base, ls, tile){
+    const vw=(typeof window!=="undefined" && window.innerWidth) ? window.innerWidth : 390;
+    const avail=Math.max(236, Math.min(552, vw-84));   // szerokość karty (vw-74) minus oddech przy krawędziach
+    const parts=String(text||"").split(/[‐-―\s-]+/).filter(Boolean);
+    const seg=parts.reduce((a,b)=>b.length>a.length?b:a,"")||"x";
+    let perPx;                                     // szerokość członu przy piśmie 1 px
+    try{
+      const c=this._miara||(this._miara=document.createElement("canvas").getContext("2d"));
+      c.font="800 100px 'Baloo 2', sans-serif";
+      perPx=c.measureText(seg).width/100;
+    }catch(e){ perPx=seg.length*0.62; }            // gdyby nie było płótna — ostrożne oszacowanie
+    const chrome=tile?26:0;                        // ramka, odstępy i wyściółka kafelka z literą
+    const wider=tile?0.55:0;                       // kafelek jest szerszy od samej litery
+    const size=(avail-chrome-seg.length*ls)/(perPx+wider);
+    return Math.max(20, Math.min(base, Math.floor(size)));
+  }
   pickDict(){
     const list=this.dictList(); if(!list.length) return null;
     const done=(this.profile&&this.profile.dictDone)||{};
@@ -2728,8 +2748,9 @@ class Component extends DCLogic {
         out.choosePrompt="";
         out.qPre=q.p; out.qPost=q.s;
         out.qGapText= s.answered? s.pick : "?";
-        out.qWordStyle={fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:(48*fs)+"px",color:C.ink,textAlign:"center",letterSpacing:s.dyslexia?"2px":"0.5px",margin:"6px 0 2px",wordBreak:"break-word"};
-        let gap={display:"inline-block",minWidth:(q.c.length>1?70:48)*fs+"px",textAlign:"center",margin:"0 4px",padding:"0 6px",borderRadius:"12px"};
+        const qSize=this.wordFontSize(q.p+q.c+q.s, 48*fs, s.dyslexia?2:0.5, true);
+        out.qWordStyle={fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:qSize+"px",color:C.ink,textAlign:"center",letterSpacing:s.dyslexia?"2px":"0.5px",margin:"6px 0 2px",wordBreak:"break-word"};
+        let gap={display:"inline-block",minWidth:Math.round((q.c.length>1?1.45:1)*qSize)+"px",textAlign:"center",margin:"0 4px",padding:"0 6px",borderRadius:"12px"};
         if(!s.answered){ gap={...gap,color:accent,background:accentSoft,border:"3px dashed "+accentBd}; }
         else if(s.correct){ gap={...gap,color:C.green,background:C.greenBg,border:"3px solid "+C.greenBd}; }
         else { gap={...gap,color:C.red,background:C.redBg,border:"3px solid "+C.redBd}; }
@@ -2784,7 +2805,7 @@ class Component extends DCLogic {
 
       if(out.isNie){
         out.nieWord=q.w;
-        out.qWordStyle={fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:(40*fs)+"px",color:C.ink,textAlign:"center",letterSpacing:s.dyslexia?"1.5px":"0.5px",margin:"6px 0"};
+        out.qWordStyle={fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:this.wordFontSize("nie "+q.w, 40*fs, s.dyslexia?1.5:0.5, false)+"px",color:C.ink,textAlign:"center",letterSpacing:s.dyslexia?"1.5px":"0.5px",margin:"6px 0",wordBreak:"break-word"};
         const correctN=q.together?"razem":"osobno";
         const nb={fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:(24*fs)+"px",minWidth:"130px",padding:"14px 24px",borderRadius:"16px",border:"2px solid "+accentBd,background:"#fff",color:accentD,cursor:"pointer",transition:"transform .12s",boxShadow:"0 4px 0 "+accentBd};
         out.nieOptions=["razem","osobno"].map(v=>{ let st={...nb}; if(s.answered){ st.pointerEvents="none"; if(v===correctN) st={...st,background:C.greenBg,border:"2px solid "+C.greenBd,color:C.green,boxShadow:"0 4px 0 "+C.greenBd}; else if(v===s.pick) st={...st,background:C.redBg,border:"2px solid "+C.redBd,color:C.red,boxShadow:"0 4px 0 "+C.redBd}; else st.opacity=0.45; } return {label:v,tab:s.answered?"-1":"0",dis:s.answered?"true":"false",style:st,onClick:()=>this.pickNie(v)}; });
@@ -2793,7 +2814,7 @@ class Component extends DCLogic {
         // każdy wyraz małą literą — inaczej druga część nazwy zdradza odpowiedź
         out.caseWord=String(q.word).split(" ").map(x=>x.charAt(0).toLowerCase()+x.slice(1)).join(" ");
         out.casePrompt = /\s/.test(q.word) ? "Jak zapiszemy to wyrażenie?" : "Jak zapiszemy ten wyraz?";
-        out.qWordStyle={fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:(38*fs)+"px",color:C.ink,textAlign:"center",letterSpacing:s.dyslexia?"1.5px":"0.5px",margin:"6px 0",wordBreak:"break-word"};
+        out.qWordStyle={fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:this.wordFontSize(out.caseWord, 38*fs, s.dyslexia?1.5:0.5, false)+"px",color:C.ink,textAlign:"center",letterSpacing:s.dyslexia?"1.5px":"0.5px",margin:"6px 0",wordBreak:"break-word"};
         const correctC=q.cap?"wielką":"małą";
         const cb={fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:(22*fs)+"px",minWidth:"150px",padding:"14px 22px",borderRadius:"16px",border:"2px solid "+accentBd,background:"#fff",color:accentD,cursor:"pointer",transition:"transform .12s",boxShadow:"0 4px 0 "+accentBd};
         out.caseOptions=[{v:"wielką",l:"wielką literą"},{v:"małą",l:"małą literą"}].map(o=>{ let st={...cb}; if(s.answered){ st.pointerEvents="none"; if(o.v===correctC) st={...st,background:C.greenBg,border:"2px solid "+C.greenBd,color:C.green,boxShadow:"0 4px 0 "+C.greenBd}; else if(o.v===s.pick) st={...st,background:C.redBg,border:"2px solid "+C.redBd,color:C.red,boxShadow:"0 4px 0 "+C.redBd}; else st.opacity=0.45; } return {label:o.l,tab:s.answered?"-1":"0",dis:s.answered?"true":"false",style:st,onClick:()=>this.pickCase(o.v)}; });
@@ -2812,7 +2833,7 @@ class Component extends DCLogic {
       }
       if(out.isStudy){
         out.qPre=q.p; out.qPost=q.s; out.studyC=q.c;
-        out.qWordStyle={fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:(46*fs)+"px",color:C.ink,textAlign:"center",letterSpacing:s.dyslexia?"2px":"0.5px",margin:"6px 0",wordBreak:"break-word"};
+        out.qWordStyle={fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:this.wordFontSize(q.p+q.c+q.s, 46*fs, s.dyslexia?2:0.5, false)+"px",color:C.ink,textAlign:"center",letterSpacing:s.dyslexia?"2px":"0.5px",margin:"6px 0",wordBreak:"break-word"};
         out.studyHiStyle={color:accent,background:accentSoft,borderRadius:"10px",padding:"0 6px"};
         out.onStudyKnow=()=>this.studyNext(true); out.onStudyAgain=()=>this.studyNext(false);
       }
