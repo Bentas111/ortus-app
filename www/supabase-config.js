@@ -213,6 +213,24 @@ window.ORTUS_FEATURES = {
 // revoke all on function ortus_delete_account() from public, anon;
 // grant execute on function ortus_delete_account() to authenticated;
 //
+// -- 3f) ABONAMENT „BEZ REKLAM" ------------------------------------------
+//    Kupuje sie go w aplikacji, ale wylacza reklamy takze na stronie, wiec
+//    uprawnienie musi siedziec przy koncie, a nie w telefonie.
+//    Wiersz zakladac i zmieniac moze WYLACZNIE serwer (klucz service_role) —
+//    uzytkownik moze go tylko odczytac, inaczej kazdy wylaczylby sobie reklamy sam.
+// create table if not exists ortus_subskrypcje (
+//   user_id     uuid primary key references auth.users(id) on delete cascade,
+//   aktywna_do  timestamptz not null,
+//   zrodlo      text not null check (zrodlo in ('apple','google')),
+//   produkt     text,
+//   updated_at  timestamptz not null default now()
+// );
+// alter table ortus_subskrypcje enable row level security;
+// drop policy if exists "abonament - odczyt" on ortus_subskrypcje;
+// create policy "abonament - odczyt" on ortus_subskrypcje
+//   for select using (auth.uid() = user_id);
+// -- brak polityk insert/update/delete = nikt poza service_role nic nie zapisze
+//
 // -- 4) ADRES POWROTU PO LOGOWANIU ---------------------------------------
 //    Authentication → URL Configuration → Redirect URLs → dodaj:
 //    https://niekazmuliczyc.pl/gry/ortografia/**

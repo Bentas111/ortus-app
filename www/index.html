@@ -1254,7 +1254,8 @@ class Component extends DCLogic {
     set:[], qIndex:0, total:0, answered:false, correct:false,
     score:0, correctCount:0, pick:null, sel:[], showRule:false,
     wrong:[], stats:{}, timeLeft:0, timeMax:1, voice:true, justMastered:[], wordFilter:"all",
-    combo:0, lessonXp:0, bestCombo:0, comboFlash:0, lessonResult:null, ghostColor:null
+    combo:0, lessonXp:0, bestCombo:0, comboFlash:0, lessonResult:null, ghostColor:null,
+    bezReklam:false                                   // aktywny abonament — reklamy nie pokazują się nigdzie
   };
   progress={};
   profile={xp:0,streak:0,lastDay:"",todayXp:0,todayDay:"",lessons:0,perfect:0,bestCombo:0,badges:{},ghost:""};
@@ -2036,10 +2037,10 @@ class Component extends DCLogic {
         }
       }catch(e){}
       const {data}=await sb.auth.getSession();
-      if(data && data.session && data.session.user){ enter(data.session.user); this.syncDown(); }
+      if(data && data.session && data.session.user){ enter(data.session.user); this.syncDown(); this.loadSubscription(); }
       sb.auth.onAuthStateChange((_e,sess)=>{
-        if(sess && sess.user){ enter(sess.user); this.syncDown(); }
-        else this.setState({user:null});
+        if(sess && sess.user){ enter(sess.user); this.syncDown(); this.loadSubscription(); }
+        else { this.setState({user:null}); this.setSubscription(false); }
       });
     }catch(e){}
   }
@@ -2310,7 +2311,24 @@ class Component extends DCLogic {
     this.setState(patch, ()=>{ if(!mode) return; if(mode==="textdict") this.openTextDict(); else this.start(mode); });
   }
   track(name,params){ try{ if(typeof window!=="undefined" && typeof window.gtag==="function") window.gtag("event",name,params||{}); }catch(e){} }
-  hasAdSlot(){ const cfg=(typeof window!=="undefined"&&window.ORTUS_ADS)||{}; return !!(cfg.client && cfg.slot); }
+  hasAdSlot(){ if(this.state.bezReklam) return false; const cfg=(typeof window!=="undefined"&&window.ORTUS_ADS)||{}; return !!(cfg.client && cfg.slot); }
+  // Abonament „bez reklam" kupuje się w aplikacji, ale wyłącza reklamy wszędzie — także tutaj,
+  // na stronie. Uprawnienie trzyma Supabase przy koncie, więc wystarczy być zalogowanym.
+  async loadSubscription(){
+    try{
+      const sb=await this.supa(); if(!sb) return this.setSubscription(false);
+      const {data,error}=await sb.from("ortus_subskrypcje").select("aktywna_do").maybeSingle();
+      if(error || !data || !data.aktywna_do) return this.setSubscription(false);
+      this.setSubscription(new Date(data.aktywna_do).getTime() > Date.now());
+    }catch(e){ this.setSubscription(false); }
+  }
+  setSubscription(ok){
+    ok=!!ok;
+    try{ window.ORTUS_BEZ_REKLAM=ok; }catch(e){}
+    try{ if(ok && window.ortusUkryjReklamy) window.ortusUkryjReklamy(); }catch(e){}
+    try{ if(ok && this._adBox){ this._adBox.innerHTML=""; delete this._adBox.dataset.filled; } }catch(e){}
+    if(this.state.bezReklam!==ok) this.setState({bezReklam:ok});
+  }
   mountAd(){
     if(typeof window==="undefined" || !window.adsbygoogle) return;
     const el=this._adBox; if(!el || el.dataset.filled) return;

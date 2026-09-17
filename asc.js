@@ -81,6 +81,6 @@ async function wydaj(nrWersji, coNowego) {
   const [cmd, arg] = process.argv.slice(2);
   if (cmd === "wydaj") {
     if (!arg) throw new Error("podaj numer wersji, np. node asc.js wydaj 1.0.4");
-    await wydaj(arg, "Dyktanda czyta teraz lektor zamiast syntezatora mowy.\nDrobne poprawki.");
+    await wydaj(arg, "Długie wyrazy mieszczą się teraz w jednym wierszu — nie łamią się w połowie.\nDrobne poprawki.");
   } else await stan();
 })().catch(e => { console.error("BŁĄD:", e.message); process.exit(2); });

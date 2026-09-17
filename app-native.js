@@ -56,6 +56,7 @@
   function startAds() {
     var cfg = window.ORTUS_ADMOB, A = P.AdMob;
     if (!cfg || !cfg.enabled || !A || !C.getPlatform) return;
+    if (window.ORTUS_BEZ_REKLAM) return;      // aktywny abonament — nie ruszamy reklam w ogóle
     var plat = C.getPlatform(); if (plat !== "android" && plat !== "ios") return;
     var ids = cfg[plat] || {};
     if (ids.banner) A.addListener("bannerAdSizeChanged", function (s) {
@@ -95,6 +96,7 @@
     },
     poLekcji: function () {
       this.lekcje++;
+      if (window.ORTUS_BEZ_REKLAM) return;
       if (!this.A || !this.unit) return;
       if (this.lekcje <= (this.cfg.lekcjiPrzedPierwsza || 0)) return;
       if (Date.now() - this.ostatnia < (this.cfg.odstepPelnoekranowej || 0)) return;
@@ -106,6 +108,15 @@
   };
   // aplikacja woła to po zamknięciu lekcji; na stronie www funkcji nie ma i nic się nie dzieje
   window.ortusLessonDone = function () { try { pelnoekranowa.poLekcji(); } catch (e) {} };
+
+  // Abonament mógł się potwierdzić już po starcie reklam (logowanie idzie asynchronicznie),
+  // więc trzeba umieć zdjąć baner z ekranu w locie.
+  window.ortusUkryjReklamy = function () {
+    try {
+      if (P.AdMob && P.AdMob.removeBanner) P.AdMob.removeBanner().catch(function () {});
+      document.body.style.paddingBottom = "";
+    } catch (e) {}
+  };
   if (document.readyState === "complete") setTimeout(startAds, 1500);
   else window.addEventListener("load", function () { setTimeout(startAds, 1500); });
 
