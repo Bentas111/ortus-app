@@ -22,6 +22,13 @@ const PLIK = path.join("C:\\Users\\48607\\OneDrive\\Pulpit\\Audyt kotków\\posty
   await send("Page.navigate", { url: "http://localhost:8149/" }); await sleep(6500);
   await ev(`(()=>{const b=[...document.querySelectorAll("button")].filter(e=>e.offsetParent).find(e=>/^Zaczynajmy/.test(e.textContent.trim())); b&&b.click();})()`);
   await sleep(1500);
+  // --android: udajemy, że aplikacja jest już w Google Play, żeby obejrzeć obie plakietki naraz
+  if (process.argv.includes("--android")) {
+    await ev(`(()=>{window.ORTUS_SKLEPY.android="https://play.google.com/store/apps/details?id=pl.niekazmuliczyc.ortus";
+      const b=[...document.querySelectorAll("button")].filter(e=>e.offsetParent).find(e=>/Dźwięk/.test(e.textContent));
+      if(b){b.click(); setTimeout(()=>b.click(),120);} })()`);
+    await sleep(1800);
+  }
 
   const box = await ev(`(()=>{const w=${JSON.stringify(SZUKAJ)};
     const c=[...document.querySelectorAll("div")].filter(d=>d.offsetParent&&d.textContent.includes(w));

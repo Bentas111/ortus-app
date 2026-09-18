@@ -311,9 +311,9 @@ window.ortusConsentGrant = function(){};
         <div data-native-hide="1" style="margin-top:26px;padding:20px 18px;border-radius:20px;background:#F3EEFF;border:1px solid #E1D6F8;text-align:center">
           <div style="font-family:'Baloo 2',sans-serif;font-weight:800;font-size:21px;color:#2C2447;margin-bottom:4px">Ortuś jest też aplikacją</div>
           <div style="font-size:14px;color:#6B6285;margin-bottom:14px;line-height:1.5">Te same ćwiczenia i dyktanda, na telefonie i tablecie.</div>
-          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-            <a href="{{ sklepIos }}" rel="noopener" style="{{ sklepBtn }}" style-hover="transform:translateY(-2px)">Pobierz w App Store</a>
-            <sc-if value="{{ maAndroid }}"><a href="{{ sklepAndroid }}" rel="noopener" style="{{ sklepBtn2 }}" style-hover="transform:translateY(-2px)">Pobierz w Google Play</a></sc-if>
+          <div style="display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap">
+            <a href="{{ sklepIos }}" rel="noopener" aria-label="Pobierz Ortusia w App Store" style="{{ sklepLink }}" style-hover="transform:translateY(-2px)"><img src="sklepy/app-store-pl.svg" alt="Pobierz w App Store" style="{{ sklepApple }}"></a>
+            <sc-if value="{{ maAndroid }}"><a href="{{ sklepAndroid }}" rel="noopener" aria-label="Pobierz Ortusia w Google Play" style="{{ sklepLink }}" style-hover="transform:translateY(-2px)"><img src="sklepy/google-play-pl.png" alt="Pobierz w Google Play" style="{{ sklepGoogle }}"></a></sc-if>
           </div>
           <sc-if value="{{ brakAndroida }}"><div style="margin-top:12px;font-size:12px;color:#8A82A0">Wersja na Androida czeka na akceptację w Google Play.</div></sc-if>
         </div>
@@ -2643,10 +2643,11 @@ class Component extends DCLogic {
         const sk=(typeof window!=="undefined" && window.ORTUS_SKLEPY)||{};
         out.sklepIos=sk.ios||""; out.sklepAndroid=sk.android||"";
         out.maAndroid=!!sk.android; out.brakAndroida=!sk.android;
-        const b={display:"inline-block",fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"16px",
-          padding:"13px 22px",borderRadius:"16px",textDecoration:"none",transition:"transform .12s"};
-        out.sklepBtn={...b,background:accent,color:"#fff",boxShadow:"0 4px 0 "+accentD};
-        out.sklepBtn2={...b,background:"#fff",color:accentD,border:"2px solid "+accentBd};
+        // oficjalne plakietki sklepów — nie wolno ich przerabiać, więc tylko skalujemy.
+        // Grafika Google ma wbudowany margines, stąd jest podawana wyższa i ściągana ujemnym marginesem.
+        out.sklepLink={display:"inline-block",lineHeight:0,textDecoration:"none",transition:"transform .12s"};
+        out.sklepApple={display:"block",height:"48px",width:"auto"};
+        out.sklepGoogle={display:"block",height:"62px",width:"auto",margin:"-7px 0"};
       }
       out.showSaveHint=!s.user && !(this.profile&&this.profile.hideSaveHint);
       out.onHideSaveHint=()=>{ this.profile=this.profile||{}; this.profile.hideSaveHint=true; this.saveProfile(); this.forceUpdate(); };
