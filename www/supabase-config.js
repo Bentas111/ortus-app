@@ -14,6 +14,16 @@ window.ORTUS_ADS = {
   slot: ""            // <- wklej tutaj numer jednostki, np. "1234567890"
 };
 
+// ====== SKLEPY ======
+// Odnośniki pokazywane na stronie w ramce „Ortuś jest też aplikacją".
+// W aplikacji mobilnej ta ramka jest ukrywana, więc tu nic nie trzeba wyłączać.
+// Android: wklej adres, gdy aplikacja wyjdzie z kolejki w Google Play — wtedy
+// przycisk pojawi się sam, a zdanie „czeka na akceptację" zniknie.
+window.ORTUS_SKLEPY = {
+  ios: "https://apps.apple.com/pl/app/id6809715926",
+  android: ""
+};
+
 // ====== FUNKCJE ======
 // ranking: "off"  — przycisk Ranking znika (bezpieczne, dopóki wynik nie jest liczony po stronie serwera)
 //          "week" — tylko tablica tygodniowa (zeruje się co poniedziałek; zawyżony wynik nie zostaje na stałe)

@@ -307,6 +307,17 @@ window.ortusConsentGrant = function(){};
           </div>
         </sc-if>
 
+        <!-- ====== POBIERZ APLIKACJĘ — tylko na stronie, w aplikacji ukryte ====== -->
+        <div data-native-hide="1" style="margin-top:26px;padding:20px 18px;border-radius:20px;background:#F3EEFF;border:1px solid #E1D6F8;text-align:center">
+          <div style="font-family:'Baloo 2',sans-serif;font-weight:800;font-size:21px;color:#2C2447;margin-bottom:4px">Ortuś jest też aplikacją</div>
+          <div style="font-size:14px;color:#6B6285;margin-bottom:14px;line-height:1.5">Te same ćwiczenia i dyktanda, na telefonie i tablecie.</div>
+          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+            <a href="{{ sklepIos }}" rel="noopener" style="{{ sklepBtn }}" style-hover="transform:translateY(-2px)">Pobierz w App Store</a>
+            <sc-if value="{{ maAndroid }}"><a href="{{ sklepAndroid }}" rel="noopener" style="{{ sklepBtn2 }}" style-hover="transform:translateY(-2px)">Pobierz w Google Play</a></sc-if>
+          </div>
+          <sc-if value="{{ brakAndroida }}"><div style="margin-top:12px;font-size:12px;color:#8A82A0">Wersja na Androida czeka na akceptację w Google Play.</div></sc-if>
+        </div>
+
         <!-- ================= STOPKA ================= -->
         <div style="margin-top:26px;padding-top:16px;border-top:1px solid #EFE7FB;text-align:center;font-size:13px;color:#6B6285;line-height:1.7">
           <div style="font-weight:700;margin-bottom:6px">Ortuś — darmowe ćwiczenia z ortografii dla klas 1–6.</div>
@@ -2627,6 +2638,16 @@ class Component extends DCLogic {
       out.weakestText=pr.weakest? ("Najsłabiej idzie "+pr.weakest.label+" — "+pr.weakest.pct+"% opanowanych. Warto tam zajrzeć w pierwszej kolejności.") : "";
 
       out.loggedIn=!!s.user; out.loggedOut=!s.user;
+      // odnośniki do sklepów — Androida wystarczy dopisać w supabase-config.js, bez ruszania szablonu
+      {
+        const sk=(typeof window!=="undefined" && window.ORTUS_SKLEPY)||{};
+        out.sklepIos=sk.ios||""; out.sklepAndroid=sk.android||"";
+        out.maAndroid=!!sk.android; out.brakAndroida=!sk.android;
+        const b={display:"inline-block",fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"16px",
+          padding:"13px 22px",borderRadius:"16px",textDecoration:"none",transition:"transform .12s"};
+        out.sklepBtn={...b,background:accent,color:"#fff",boxShadow:"0 4px 0 "+accentD};
+        out.sklepBtn2={...b,background:"#fff",color:accentD,border:"2px solid "+accentBd};
+      }
       out.showSaveHint=!s.user && !(this.profile&&this.profile.hideSaveHint);
       out.onHideSaveHint=()=>{ this.profile=this.profile||{}; this.profile.hideSaveHint=true; this.saveProfile(); this.forceUpdate(); };
       out.userEmail=s.user? s.user.email : "";
