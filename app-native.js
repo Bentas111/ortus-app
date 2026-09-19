@@ -26,6 +26,8 @@
     var ans = window.prompt("Ten link otwiera stronę poza aplikacją. Poproś rodzica lub opiekuna: ile to " + a + " × " + b + "?");
     if (ans !== null && parseInt(ans, 10) === a * b) cb();
   }
+  // ta sama bramka pilnuje zakupu abonamentu — aplikacja woła ją przed otwarciem sklepu
+  window.ortusParentGate = parentGate;
   document.addEventListener("click", function (e) {
     var t = e.target; if (!t || !t.closest) return;
     var a = t.closest("a[href]"); if (!a) return;
