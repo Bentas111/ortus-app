@@ -229,6 +229,7 @@ window.ortusConsentGrant = function(){};
           <button onClick="{{ openBadges }}" style="display:inline-flex;align-items:center;gap:8px;background:#fff;border:2px solid var(--accent-bd,#DCCFF6);color:var(--accent-d,#573AC0);font-family:'Baloo 2',sans-serif;font-weight:800;font-size:15px;padding:11px 18px;border-radius:16px;cursor:pointer" style-hover="transform:translateY(-2px)">🏅 Odznaki · {{ badgeCount }}</button>
           <sc-if value="{{ loggedOut }}"><button onClick="{{ onOpenAuth }}" style="display:inline-flex;align-items:center;gap:8px;background:#fff;border:2px solid var(--accent-bd,#DCCFF6);color:var(--accent-d,#573AC0);font-family:'Baloo 2',sans-serif;font-weight:800;font-size:15px;padding:11px 18px;border-radius:16px;cursor:pointer" style-hover="transform:translateY(-2px)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-d,#573AC0)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Zaloguj się</button></sc-if>
           <sc-if value="{{ showRanking }}"><button onClick="{{ onOpenRanking }}" style="display:inline-flex;align-items:center;gap:8px;background:#fff;border:2px solid var(--accent-bd,#DCCFF6);color:var(--accent-d,#573AC0);font-family:'Baloo 2',sans-serif;font-weight:800;font-size:15px;padding:11px 18px;border-radius:16px;cursor:pointer" style-hover="transform:translateY(-2px)">🏆 Ranking</button></sc-if>
+          <button onClick="{{ onOpenSklep }}" style="display:inline-flex;align-items:center;gap:8px;background:#fff;border:2px solid var(--accent-bd,#DCCFF6);color:var(--accent-d,#573AC0);font-family:'Baloo 2',sans-serif;font-weight:800;font-size:15px;padding:11px 18px;border-radius:16px;cursor:pointer" style-hover="transform:translateY(-2px)">{{ sklepPrzyciskTekst }}</button>
           <sc-if value="{{ loggedIn }}"><button onClick="{{ onRetrySync }}" style="{{ syncStyle }}" style-hover="transform:translateY(-2px)">{{ syncLabel }}</button></sc-if>
           <sc-if value="{{ loggedIn }}"><button onClick="{{ onSignOut }}" title="{{ userEmail }}" style="display:inline-flex;align-items:center;gap:8px;background:#fff;border:2px solid var(--accent-bd,#DCCFF6);color:var(--accent-d,#573AC0);font-family:'Baloo 2',sans-serif;font-weight:800;font-size:15px;padding:11px 18px;border-radius:16px;cursor:pointer" style-hover="transform:translateY(-2px)">Wyloguj</button></sc-if>
         </div>
@@ -381,6 +382,64 @@ window.ortusConsentGrant = function(){};
             </sc-for>
           </div>
         </sc-if>
+      </div>
+    </sc-if>
+
+    <!-- ================= BEZ REKLAM (abonament) ================= -->
+    <sc-if value="{{ isSklep }}">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+          <button onClick="{{ onBack }}" aria-label="Wróć do menu" style="background:#fff;border:1px solid #EFE7FB;color:var(--accent-d,#573AC0);font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;padding:9px 15px;border-radius:13px;cursor:pointer" style-hover="background:var(--accent-soft,#EFE9FB)">‹ Menu</button>
+          <h1 tabindex="-1" style="font-family:'Baloo 2',sans-serif;font-weight:800;color:var(--accent-d,#573AC0);font-size:18px;margin:0;outline:none">Ortuś bez reklam</h1>
+          <div style="width:70px"></div>
+        </div>
+
+        <div style="background:#fff;border-radius:22px;padding:20px 18px;box-shadow:0 8px 30px rgba(87,58,192,.08)">
+          <p style="margin:0 0 6px;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:22px;color:#2C2447;line-height:1.2">Wszystkie ćwiczenia zostają za darmo.</p>
+          <p style="margin:0;font-size:15px;color:#6B6285;line-height:1.55">Abonament wyłącza tylko reklamy — w aplikacji i na stronie, gdy jesteś zalogowany na to samo konto. Nie odblokowuje żadnych dodatkowych zadań, bo wszystkie już masz.</p>
+
+          <!-- aktywny abonament -->
+          <sc-if value="{{ sklepAktywny }}">
+            <div role="status" style="margin-top:16px;padding:14px 16px;border-radius:16px;background:#E6F7EC;border:1px solid #7FCF9F;color:#0F5C32;font-weight:800;font-size:15px;line-height:1.45">✓ Abonament aktywny{{ sklepAktywnyDo }}<div style="font-weight:600;font-size:13px;margin-top:4px;color:#2C6B45">Reklamy są wyłączone. Abonamentem zarządzasz w ustawieniach konta {{ sklepSklepNazwa }}.</div></div>
+          </sc-if>
+
+          <!-- strona www: zakup tylko w aplikacji -->
+          <sc-if value="{{ sklepTylkoWAplikacji }}">
+            <div style="margin-top:16px;padding:14px 16px;border-radius:16px;background:#F3EEFF;border:1px solid #E1D6F8;font-size:14px;color:#2C2447;line-height:1.5">
+              Abonament kupuje się w aplikacji Ortuś na telefonie lub tablecie. Gdy zalogujesz się w aplikacji i tutaj na to samo konto, reklamy znikną także na tej stronie.
+              <div style="display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:12px">
+                <a href="{{ sklepIos }}" rel="noopener" aria-label="Pobierz Ortusia w App Store" style="{{ sklepLink }}"><img src="sklepy/app-store-pl.svg" alt="Pobierz w App Store" style="{{ sklepApple }}"></a>
+                <sc-if value="{{ maAndroid }}"><a href="{{ sklepAndroid }}" rel="noopener" aria-label="Pobierz Ortusia w Google Play" style="{{ sklepLink }}"><img src="sklepy/google-play-pl.png" alt="Pobierz w Google Play" style="{{ sklepGoogle }}"></a></sc-if>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- oferta w aplikacji -->
+          <sc-if value="{{ sklepOfertaWidoczna }}">
+            <sc-if value="{{ sklepLaduje }}"><div role="status" style="margin-top:16px;text-align:center;font-size:14px;color:#6B6285">Pobieram ceny ze sklepu…</div></sc-if>
+            <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px">
+              <sc-for list="{{ sklepOferty }}" as="o" hint-placeholder-count="2">
+                <button onClick="{{ o.onClick }}" aria-disabled="{{ o.dis }}" style="{{ o.style }}" style-hover="transform:translateY(-2px)">
+                  <span style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;width:100%">
+                    <span style="text-align:left"><span style="display:block;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:19px">{{ o.tytul }}</span><span style="display:block;font-size:13px;font-weight:600;opacity:.85">{{ o.opis }}</span></span>
+                    <span style="text-align:right;white-space:nowrap"><span style="display:block;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:19px">{{ o.cena }}</span><span style="display:block;font-size:12px;font-weight:600;opacity:.85">{{ o.okres }}</span></span>
+                  </span>
+                </button>
+              </sc-for>
+            </div>
+            <sc-if value="{{ sklepPrzywracanieWidoczne }}"><div style="text-align:center;margin-top:12px"><button onClick="{{ onSklepPrzywroc }}" aria-disabled="{{ sklepZajety }}" style="background:none;border:0;padding:6px 10px;font:inherit;font-weight:800;font-size:14px;color:var(--accent-d,#573AC0);text-decoration:underline;text-underline-offset:3px;cursor:pointer">Przywróć zakupy</button></div></sc-if>
+          </sc-if>
+
+          <sc-if value="{{ hasSklepMsg }}"><div role="alert" style="{{ sklepMsgStyle }}">{{ sklepMsg }}</div></sc-if>
+
+          <!-- informacje wymagane przez sklepy -->
+          <sc-if value="{{ sklepOfertaWidoczna }}">
+            <p style="margin:16px 0 0;font-size:12px;line-height:1.55;color:#8A82A0">{{ sklepZastrzezenie }}</p>
+            <p style="margin:8px 0 0;font-size:12px;line-height:1.55;color:#8A82A0"><a href="{{ sklepRegulaminUrl }}" rel="noopener" style="color:#6E6488;text-decoration:underline;text-underline-offset:2px">Regulamin (EULA)</a> · <a href="https://niekazmuliczyc.pl/polityka-prywatnosci/" rel="noopener" style="color:#6E6488;text-decoration:underline;text-underline-offset:2px">Polityka prywatności</a></p>
+          </sc-if>
+
+          <sc-if value="{{ sklepLoginNota }}"><p style="margin:14px 0 0;font-size:13px;line-height:1.5;color:#6B6285">Nie jesteś zalogowany — w aplikacji reklamy i tak znikną, ale żeby zniknęły też na stronie www, zaloguj się na to samo konto w obu miejscach.</p></sc-if>
+        </div>
       </div>
     </sc-if>
 
@@ -1266,7 +1325,9 @@ class Component extends DCLogic {
     score:0, correctCount:0, pick:null, sel:[], showRule:false,
     wrong:[], stats:{}, timeLeft:0, timeMax:1, voice:true, justMastered:[], wordFilter:"all",
     combo:0, lessonXp:0, bestCombo:0, comboFlash:0, lessonResult:null, ghostColor:null,
-    bezReklam:false                                   // aktywny abonament — reklamy nie pokazują się nigdzie
+    bezReklam:false,                                  // aktywny abonament — reklamy nie pokazują się nigdzie
+    bezReklamDo:"",                                   // data ważności abonamentu (do pokazania)
+    sklepStan:"", sklepProdukty:[], sklepMsg:"", sklepKupuje:false   // ekran „Bez reklam"
   };
   progress={};
   profile={xp:0,streak:0,lastDay:"",todayXp:0,todayDay:"",lessons:0,perfect:0,bestCombo:0,badges:{},ghost:""};
@@ -1278,6 +1339,7 @@ class Component extends DCLogic {
     if(!this.hasEntered()){ this.profile=this.profile||{}; this.profile.entered=true; this.saveProfile(); }
     setTimeout(()=>this.applyDeepLink(), 350);
     this.initAuth();
+    this.loadSubscription();   // w aplikacji abonament ze sklepu działa także bez logowania
     if(typeof window!=="undefined") window.addEventListener("ortus-ads-ready", ()=>this.mountAd());
 
     this.setState({voice: typeof window!=="undefined" && "speechSynthesis" in window});
@@ -2051,7 +2113,7 @@ class Component extends DCLogic {
       if(data && data.session && data.session.user){ enter(data.session.user); this.syncDown(); this.loadSubscription(); }
       sb.auth.onAuthStateChange((_e,sess)=>{
         if(sess && sess.user){ enter(sess.user); this.syncDown(); this.loadSubscription(); }
-        else { this.setState({user:null}); this.setSubscription(false); }
+        else { this.setState({user:null}, ()=>this.loadSubscription()); }   // po wylogowaniu abonament ze sklepu dalej obowiązuje
       });
     }catch(e){}
   }
@@ -2325,20 +2387,90 @@ class Component extends DCLogic {
   hasAdSlot(){ if(this.state.bezReklam) return false; const cfg=(typeof window!=="undefined"&&window.ORTUS_ADS)||{}; return !!(cfg.client && cfg.slot); }
   // Abonament „bez reklam" kupuje się w aplikacji, ale wyłącza reklamy wszędzie — także tutaj,
   // na stronie. Uprawnienie trzyma Supabase przy koncie, więc wystarczy być zalogowanym.
+  // Kolejność źródeł prawdy: sklep (w aplikacji) → kopia lokalna (w aplikacji, żeby reklamy
+  // nie mignęły przed odpowiedzią sklepu) → Supabase (na www, po zalogowaniu).
   async loadSubscription(){
     try{
-      const sb=await this.supa(); if(!sb) return this.setSubscription(false);
+      const most=this.sklepMost();
+      if(most){
+        const st=await most.stan().catch(()=>null);
+        if(st && st.aktywnaDo && new Date(st.aktywnaDo).getTime()>Date.now()){ await this.przyjmijSubskrypcje(st); return; }
+        try{ const c=JSON.parse(localStorage.getItem("ortus_abonament_v1")||"null");
+          if(c && c.aktywnaDo && new Date(c.aktywnaDo).getTime()>Date.now()){ this.setSubscription(true, c.aktywnaDo); return; } }catch(e){}
+      }
+      const sb=await this.supa(); if(!sb || !this.state.user) return this.setSubscription(false);
       const {data,error}=await sb.from("ortus_subskrypcje").select("aktywna_do").maybeSingle();
       if(error || !data || !data.aktywna_do) return this.setSubscription(false);
-      this.setSubscription(new Date(data.aktywna_do).getTime() > Date.now());
+      const ok=new Date(data.aktywna_do).getTime() > Date.now();
+      this.setSubscription(ok, ok?data.aktywna_do:"");
     }catch(e){ this.setSubscription(false); }
   }
-  setSubscription(ok){
+  setSubscription(ok, aktywnaDo){
     ok=!!ok;
     try{ window.ORTUS_BEZ_REKLAM=ok; }catch(e){}
     try{ if(ok && window.ortusUkryjReklamy) window.ortusUkryjReklamy(); }catch(e){}
     try{ if(ok && this._adBox){ this._adBox.innerHTML=""; delete this._adBox.dataset.filled; } }catch(e){}
-    if(this.state.bezReklam!==ok) this.setState({bezReklam:ok});
+    const doKiedy= ok ? String(aktywnaDo||this.state.bezReklamDo||"") : "";
+    if(this.state.bezReklam!==ok || this.state.bezReklamDo!==doKiedy) this.setState({bezReklam:ok, bezReklamDo:doKiedy});
+  }
+  dataPl(iso){ try{ return new Date(iso).toLocaleDateString("pl-PL",{day:"numeric",month:"long",year:"numeric"}); }catch(e){ return String(iso||"").slice(0,10); } }
+
+  // ---- Abonament „bez reklam" ----------------------------------------------
+  // Most do sklepu daje warstwa natywna (app-native.js). Kontrakt:
+  //   window.ortusSklep = { platforma:"apple"|"google",
+  //     produkty(ids) → [{id, cena, okres}],
+  //     kup(id)       → {aktywnaDo, produkt} albo null gdy anulowano,
+  //     przywroc()    → {aktywnaDo, produkt} albo null,
+  //     stan()        → {aktywnaDo, produkt} albo null }
+  // Na stronie www mostu nie ma — ekran pokazuje wtedy, że zakup jest w aplikacji.
+  sklepMost(){ return (typeof window!=="undefined" && window.ortusSklep) || null; }
+  sklepIds(){ return ["pl.niekazmuliczyc.ortus.bezreklam.miesiac","pl.niekazmuliczyc.ortus.bezreklam.rok"]; }
+  async openSklep(){
+    const most=this.sklepMost();
+    this.setState({screen:"sklep", sklepMsg:"", sklepKupuje:false, sklepStan: most?"laduje":"www", sklepProdukty:[]});
+    if(!most) return;
+    try{
+      const [prod, stan]=await Promise.all([most.produkty(this.sklepIds()), most.stan().catch(()=>null)]);
+      if(stan && stan.aktywnaDo) await this.przyjmijSubskrypcje(stan);
+      this.setState({sklepProdukty:Array.isArray(prod)?prod:[], sklepStan:"gotowe"});
+    }catch(e){ this.setState({sklepStan:"blad", sklepMsg:"Nie udało się pobrać cen ze sklepu. Sprawdź połączenie i spróbuj ponownie."}); }
+  }
+  async sklepKup(id){
+    const most=this.sklepMost(); if(!most || this.state.sklepKupuje) return;
+    const start=async()=>{
+      this.setState({sklepKupuje:true, sklepMsg:""});
+      try{
+        const wynik=await most.kup(id);
+        if(wynik && wynik.aktywnaDo){ await this.przyjmijSubskrypcje(wynik); this.setState({sklepMsg:"Dziękujemy! Reklamy są już wyłączone."}); }
+      }catch(e){ this.setState({sklepMsg:this.sklepBlad(e)}); }
+      this.setState({sklepKupuje:false});
+    };
+    // aplikacja dla dzieci: zakup zawsze za bramką rodzica (tą samą, co przy linkach na zewnątrz)
+    if(typeof window!=="undefined" && window.ortusParentGate) window.ortusParentGate(start); else start();
+  }
+  async sklepPrzywroc(){
+    const most=this.sklepMost(); if(!most || this.state.sklepKupuje) return;
+    this.setState({sklepKupuje:true, sklepMsg:""});
+    try{
+      const wynik=await most.przywroc();
+      if(wynik && wynik.aktywnaDo){ await this.przyjmijSubskrypcje(wynik); this.setState({sklepMsg:"Przywrócono abonament. Reklamy są wyłączone."}); }
+      else this.setState({sklepMsg:"Nie znaleźliśmy aktywnego abonamentu na tym koncie sklepu."});
+    }catch(e){ this.setState({sklepMsg:this.sklepBlad(e)||"Nie udało się przywrócić zakupów. Spróbuj ponownie."}); }
+    this.setState({sklepKupuje:false});
+  }
+  sklepBlad(e){ const m=String((e&&e.message)||e||"").trim(); if(!m || /cancel|anulow|userCancelled/i.test(m)) return ""; return "Zakup się nie powiódł: "+m; }
+  // uprawnienie: od razu lokalnie, do Supabase gdy jest konto (żeby zadziałało też na www)
+  async przyjmijSubskrypcje(info){
+    if(!info || !info.aktywnaDo || !(new Date(info.aktywnaDo).getTime()>Date.now())) return;
+    try{ localStorage.setItem("ortus_abonament_v1", JSON.stringify({aktywnaDo:info.aktywnaDo, produkt:info.produkt||""})); }catch(e){}
+    this.setSubscription(true, info.aktywnaDo);
+    try{
+      const sb=await this.supa(); const u=this.state.user;
+      if(sb && u){
+        const most=this.sklepMost();
+        await sb.from("ortus_subskrypcje").upsert({user_id:u.id, aktywna_do:new Date(info.aktywnaDo).toISOString(), zrodlo:(most&&most.platforma)||"apple", produkt:info.produkt||null, updated_at:new Date().toISOString()});
+      }
+    }catch(e){}
   }
   mountAd(){
     if(typeof window==="undefined" || !window.adsbygoogle) return;
@@ -2548,7 +2680,7 @@ class Component extends DCLogic {
 
     const out={
       appVars:{width:"100%",maxWidth:"760px",display:"block","--accent":accent,"--accent-d":accentD,"--accent-soft":accentSoft,"--accent-bd":accentBd,"--ghost":(s.ghostColor||accent)},
-      isRanking:s.screen==="ranking", isMenu:s.screen==="menu", isExercise:s.screen==="exercise", isSummary:s.screen==="summary", isTextDict:s.screen==="textdict", isAuth:s.screen==="auth",
+      isRanking:s.screen==="ranking", isMenu:s.screen==="menu", isExercise:s.screen==="exercise", isSummary:s.screen==="summary", isTextDict:s.screen==="textdict", isAuth:s.screen==="auth", isSklep:s.screen==="sklep",
       mascotMouth:mouths[mood], mascotMsg:msg, mascotWiggle: (s.answered&&s.correct)?"animation:wiggle .5s ease":"",
       bubbleStyle:{background:accentSoft,color:accentD,padding:"9px 15px",borderRadius:"14px",fontWeight:800,fontSize:(15)+"px",lineHeight:1.35},
       onBack:()=>this.back()
@@ -2563,6 +2695,55 @@ class Component extends DCLogic {
     out.ringStyle={strokeDasharray:circ+"px",strokeDashoffset:(circ*(1-rp))+"px",stroke: todayXp>=goal? "#157A43":accent,transition:"stroke-dashoffset .6s ease",transform:"rotate(-90deg)",transformOrigin:"20px 20px"};
     out.isBadges=s.screen==="badges"; out.openBadges=()=>this.openBadges();
     out.badgeCount=Object.keys(P.badges||{}).length+" / "+this.badgeDefs().length;
+
+    // odnośniki do sklepów (menu i ekran „Bez reklam") — Androida wystarczy dopisać w supabase-config.js
+    {
+      const sk=(typeof window!=="undefined" && window.ORTUS_SKLEPY)||{};
+      out.sklepIos=sk.ios||""; out.sklepAndroid=sk.android||"";
+      out.maAndroid=!!sk.android; out.brakAndroida=!sk.android;
+      // oficjalne plakietki sklepów — nie wolno ich przerabiać, więc tylko skalujemy.
+      // Grafika Google ma wbudowany margines, stąd jest podawana wyższa i ściągana ujemnym marginesem.
+      out.sklepLink={display:"inline-block",lineHeight:0,textDecoration:"none",transition:"transform .12s"};
+      out.sklepApple={display:"block",height:"48px",width:"auto"};
+      out.sklepGoogle={display:"block",height:"62px",width:"auto",margin:"-7px 0"};
+    }
+
+    if(s.screen==="sklep"){
+      const most=this.sklepMost();
+      const google= !!most && most.platforma==="google";
+      const dobra=/Dziękujemy|Przywrócono/.test(s.sklepMsg||"");
+      out.sklepAktywny=!!s.bezReklam;
+      out.sklepAktywnyDo= s.bezReklamDo ? " do "+this.dataPl(s.bezReklamDo) : "";
+      out.sklepSklepNazwa= google ? "Google Play" : "Apple";
+      out.sklepTylkoWAplikacji=!most;
+      out.sklepOfertaWidoczna=!!most && !s.bezReklam;
+      out.sklepPrzywracanieWidoczne=!!most && !s.bezReklam;
+      out.sklepLaduje=s.sklepStan==="laduje";
+      out.sklepZajety=s.sklepKupuje?"true":"false";
+      out.onSklepPrzywroc=()=>this.sklepPrzywroc();
+      out.hasSklepMsg=!!s.sklepMsg; out.sklepMsg=s.sklepMsg||"";
+      out.sklepMsgStyle={marginTop:"14px",padding:"12px 14px",borderRadius:"14px",fontSize:"14px",fontWeight:700,lineHeight:1.45,
+        background:dobra?"#E6F7EC":"#FDECEF", border:"1px solid "+(dobra?"#7FCF9F":"#F3B6C2"), color:dobra?"#0F5C32":"#A3243A"};
+      const opisy={
+        "pl.niekazmuliczyc.ortus.bezreklam.miesiac":{tytul:"Miesiąc", opis:"Odnawia się co miesiąc", okres:"za miesiąc"},
+        "pl.niekazmuliczyc.ortus.bezreklam.rok":{tytul:"Rok", opis:"Taniej niż 12 miesięcy osobno", okres:"za rok"}
+      };
+      const base={display:"block",width:"100%",textAlign:"left",background:"#fff",border:"2px solid "+accentBd,color:accentD,borderRadius:"18px",padding:"14px 16px",cursor:"pointer",transition:"transform .12s",boxShadow:"0 4px 0 "+accentBd,fontFamily:"'Nunito',sans-serif"};
+      out.sklepOferty=(s.sklepProdukty||[]).map(p=>{
+        const m=opisy[p.id]||{tytul:p.tytul||p.id, opis:"", okres:p.okres||""};
+        let st={...base};
+        if(/\.rok$/.test(p.id)) st={...st,background:accent,color:"#fff",border:"2px solid "+accentD,boxShadow:"0 4px 0 "+accentD};
+        if(s.sklepKupuje) st={...st,opacity:0.6,pointerEvents:"none"};
+        return {tytul:m.tytul, opis:m.opis, cena:p.cena||"", okres:m.okres, style:st, dis:s.sklepKupuje?"true":"false", onClick:()=>this.sklepKup(p.id)};
+      });
+      // treści wymagane przez sklepy przy subskrypcjach (Apple 3.1.2, Google Play)
+      out.sklepZastrzezenie= google
+        ? "Płatność zostanie pobrana z konta Google Play przy potwierdzeniu zakupu. Abonament odnawia się automatycznie na kolejny okres, chyba że anulujesz go w Google Play co najmniej 24 godziny przed końcem bieżącego okresu. Anulować możesz w każdej chwili w ustawieniach subskrypcji Google Play."
+        : "Płatność zostanie pobrana z konta Apple przy potwierdzeniu zakupu. Abonament odnawia się automatycznie na kolejny okres, chyba że wyłączysz automatyczne odnawianie co najmniej 24 godziny przed końcem bieżącego okresu. Opłata za odnowienie jest pobierana w ciągu 24 godzin przed jego końcem. Abonamentem zarządzasz w ustawieniach konta Apple.";
+      out.sklepRegulaminUrl= google ? "https://niekazmuliczyc.pl/regulamin/" : "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/";
+      out.sklepLoginNota=!!most && !s.user;
+      out.onBack=()=>this.setState({screen:"menu"});
+    }
 
     if(s.screen==="menu"){
       const selPill=(active)=>active
@@ -2638,17 +2819,6 @@ class Component extends DCLogic {
       out.weakestText=pr.weakest? ("Najsłabiej idzie "+pr.weakest.label+" — "+pr.weakest.pct+"% opanowanych. Warto tam zajrzeć w pierwszej kolejności.") : "";
 
       out.loggedIn=!!s.user; out.loggedOut=!s.user;
-      // odnośniki do sklepów — Androida wystarczy dopisać w supabase-config.js, bez ruszania szablonu
-      {
-        const sk=(typeof window!=="undefined" && window.ORTUS_SKLEPY)||{};
-        out.sklepIos=sk.ios||""; out.sklepAndroid=sk.android||"";
-        out.maAndroid=!!sk.android; out.brakAndroida=!sk.android;
-        // oficjalne plakietki sklepów — nie wolno ich przerabiać, więc tylko skalujemy.
-        // Grafika Google ma wbudowany margines, stąd jest podawana wyższa i ściągana ujemnym marginesem.
-        out.sklepLink={display:"inline-block",lineHeight:0,textDecoration:"none",transition:"transform .12s"};
-        out.sklepApple={display:"block",height:"48px",width:"auto"};
-        out.sklepGoogle={display:"block",height:"62px",width:"auto",margin:"-7px 0"};
-      }
       out.showSaveHint=!s.user && !(this.profile&&this.profile.hideSaveHint);
       out.onHideSaveHint=()=>{ this.profile=this.profile||{}; this.profile.hideSaveHint=true; this.saveProfile(); this.forceUpdate(); };
       out.userEmail=s.user? s.user.email : "";
@@ -2662,6 +2832,8 @@ class Component extends DCLogic {
       out.onOpenAuth=()=>this.openAuth(); out.onSignOut=()=>this.signOut(); out.onDeleteAccount=()=>this.deleteAccount();
       out.onOpenRanking=()=>this.openRanking();
       out.showRanking=this.rankingMode()!=="off";
+      out.onOpenSklep=()=>this.openSklep();
+      out.sklepPrzyciskTekst=s.bezReklam ? "✓ Bez reklam" : "🚫 Bez reklam";
       out.myNick=this.nick(); out.hasNick=!!this.nick();
       out.needsNick=!!s.user && !this.nick();
       out.nickDraft=s.nickDraft!==undefined? s.nickDraft : this.nick();
