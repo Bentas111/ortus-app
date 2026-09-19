@@ -26,6 +26,8 @@
     var ans = window.prompt("Ten link otwiera stronę poza aplikacją. Poproś rodzica lub opiekuna: ile to " + a + " × " + b + "?");
     if (ans !== null && parseInt(ans, 10) === a * b) cb();
   }
+  // ta sama bramka pilnuje zakupu abonamentu — aplikacja woła ją przed otwarciem sklepu
+  window.ortusParentGate = parentGate;
   document.addEventListener("click", function (e) {
     var t = e.target; if (!t || !t.closest) return;
     var a = t.closest("a[href]"); if (!a) return;
@@ -147,4 +149,95 @@
         return t ? { token: t, nonce: surowy } : null;
       });
   };
+
+  // ---- Abonament „bez reklam" ----------------------------------------------
+  // Most między aplikacją a sklepem. Rozmawiamy wprost z natywną wtyczką
+  // (capacitor-plugin-cdv-purchase → StoreKit 2), z pominięciem jej warstwy
+  // TypeScript — bo Ortuś nie ma bundlera, a ta warstwa jest modułem ES.
+  // Wtyczka wymaga iOS 15+; na starszych odrzuca init i ekran pokazuje, że
+  // zakup jest niedostępny. Kontrakt mostu opisany w index.html przy sklepMost().
+  (function sklep() {
+    var W = P.PurchasePlugin;
+    if (!W || !C.getPlatform) return;
+    var plat = C.getPlatform();
+    if (plat !== "ios" && plat !== "android") return;
+
+    var gotowy = null;                 // Promise z init
+    var ostatnia = null;               // najświeższa znana transakcja z datą ważności
+    var oczekujace = [];               // funkcje czekające na wynik zakupu/przywracania
+
+    function zapamietaj(t) {
+      if (!t || !t.expirationDate) return null;
+      var doKiedy = new Date(Number(t.expirationDate)).toISOString();
+      var info = { aktywnaDo: doKiedy, produkt: t.productId || "" };
+      // trzymamy najdalszą datę — przy odnowieniu przychodzi kilka transakcji
+      if (!ostatnia || new Date(info.aktywnaDo) > new Date(ostatnia.aktywnaDo)) ostatnia = info;
+      return info;
+    }
+    function rozliczOczekujace(info, blad) {
+      var lista = oczekujace; oczekujace = [];
+      lista.forEach(function (o) { blad ? o.reject(blad) : o.resolve(info); });
+    }
+
+    W.addListener("transactionUpdated", function (t) {
+      var info = zapamietaj(t);
+      // StoreKit trzyba potwierdzić, że transakcja została obsłużona, inaczej wraca w kółko
+      if (t && t.transactionIdentifier && /Purchased|Restored/.test(t.state || "")) {
+        try { W.finish({ transactionId: t.transactionIdentifier }); } catch (e) {}
+      }
+      if (/Purchased|Restored/.test(t.state || "")) {
+        if (info) rozliczOczekujace(info);
+      } else if ((t.state || "") === "PaymentTransactionStateFailed") {
+        // 6777006 = użytkownik zrezygnował; to nie jest błąd do pokazania
+        rozliczOczekujace(null, Number(t.errorCode) === 6777006 ? null : new Error(t.errorText || "Zakup się nie powiódł"));
+      }
+    });
+
+    function start() {
+      if (!gotowy) gotowy = W.init({ debug: false }).catch(function (e) { gotowy = null; throw e; });
+      return gotowy;
+    }
+    // czekamy na transakcję, ale nie w nieskończoność — StoreKit potrafi milczeć
+    function czekaj(ms) {
+      return new Promise(function (resolve, reject) {
+        var domkniete = false;
+        var wpis = {
+          resolve: function (v) { if (!domkniete) { domkniete = true; resolve(v); } },
+          reject: function (e) { if (!domkniete) { domkniete = true; reject(e); } }
+        };
+        oczekujace.push(wpis);
+        setTimeout(function () { wpis.resolve(ostatnia); }, ms || 30000);
+      });
+    }
+
+    window.ortusSklep = {
+      platforma: plat === "ios" ? "apple" : "google",
+      produkty: function (ids) {
+        return start().then(function () { return W.load({ productIds: ids }); }).then(function (r) {
+          return ((r && r.validProducts) || []).map(function (p) {
+            return { id: p.id, cena: p.price, okres: p.billingPeriodUnit || "", tytul: p.title };
+          });
+        });
+      },
+      kup: function (id) {
+        return start().then(function () {
+          var czekanie = czekaj(120000);          // okno płatności bywa długie
+          return W.purchase({ productId: id }).then(function () { return czekanie; });
+        });
+      },
+      przywroc: function () {
+        return start().then(function () {
+          var czekanie = czekaj(20000);
+          return W.restore().then(function () { return czekanie; });
+        });
+      },
+      stan: function () {
+        // init sam zgłasza aktywne uprawnienia zdarzeniem, więc dajemy mu chwilę
+        return start().then(function () {
+          return new Promise(function (r) { setTimeout(function () { r(ostatnia); }, 1200); });
+        }).catch(function () { return null; });
+      },
+      zarzadzaj: function () { try { return W.manageSubscriptions(); } catch (e) { return Promise.resolve(); } }
+    };
+  })();
 })();

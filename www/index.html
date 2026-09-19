@@ -396,7 +396,7 @@ window.ortusConsentGrant = function(){};
 
         <div style="background:#fff;border-radius:22px;padding:20px 18px;box-shadow:0 8px 30px rgba(87,58,192,.08)">
           <p style="margin:0 0 6px;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:22px;color:#2C2447;line-height:1.2">Wszystkie ćwiczenia zostają za darmo.</p>
-          <p style="margin:0;font-size:15px;color:#6B6285;line-height:1.55">Abonament wyłącza tylko reklamy — w aplikacji i na stronie, gdy jesteś zalogowany na to samo konto. Nie odblokowuje żadnych dodatkowych zadań, bo wszystkie już masz.</p>
+          <p style="margin:0;font-size:15px;color:#6B6285;line-height:1.55">Abonament wyłącza tylko reklamy w aplikacji. Nie odblokowuje żadnych dodatkowych zadań, bo wszystkie już masz.</p>
 
           <!-- aktywny abonament -->
           <sc-if value="{{ sklepAktywny }}">
@@ -406,7 +406,7 @@ window.ortusConsentGrant = function(){};
           <!-- strona www: zakup tylko w aplikacji -->
           <sc-if value="{{ sklepTylkoWAplikacji }}">
             <div style="margin-top:16px;padding:14px 16px;border-radius:16px;background:#F3EEFF;border:1px solid #E1D6F8;font-size:14px;color:#2C2447;line-height:1.5">
-              Abonament kupuje się w aplikacji Ortuś na telefonie lub tablecie. Gdy zalogujesz się w aplikacji i tutaj na to samo konto, reklamy znikną także na tej stronie.
+              Abonament bez reklam dotyczy aplikacji Ortuś na telefonie lub tablecie — tam go kupisz i tam działa.
               <div style="display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:12px">
                 <a href="{{ sklepIos }}" rel="noopener" aria-label="Pobierz Ortusia w App Store" style="{{ sklepLink }}"><img src="sklepy/app-store-pl.svg" alt="Pobierz w App Store" style="{{ sklepApple }}"></a>
                 <sc-if value="{{ maAndroid }}"><a href="{{ sklepAndroid }}" rel="noopener" aria-label="Pobierz Ortusia w Google Play" style="{{ sklepLink }}"><img src="sklepy/google-play-pl.png" alt="Pobierz w Google Play" style="{{ sklepGoogle }}"></a></sc-if>
@@ -2387,8 +2387,7 @@ class Component extends DCLogic {
   hasAdSlot(){ if(this.state.bezReklam) return false; const cfg=(typeof window!=="undefined"&&window.ORTUS_ADS)||{}; return !!(cfg.client && cfg.slot); }
   // Abonament „bez reklam" kupuje się w aplikacji, ale wyłącza reklamy wszędzie — także tutaj,
   // na stronie. Uprawnienie trzyma Supabase przy koncie, więc wystarczy być zalogowanym.
-  // Kolejność źródeł prawdy: sklep (w aplikacji) → kopia lokalna (w aplikacji, żeby reklamy
-  // nie mignęły przed odpowiedzią sklepu) → Supabase (na www, po zalogowaniu).
+  // Abonament dotyczy tylko aplikacji: sklep → kopia lokalna (żeby reklamy nie mignęły przed odpowiedzią sklepu).
   async loadSubscription(){
     try{
       const most=this.sklepMost();
@@ -2398,11 +2397,7 @@ class Component extends DCLogic {
         try{ const c=JSON.parse(localStorage.getItem("ortus_abonament_v1")||"null");
           if(c && c.aktywnaDo && new Date(c.aktywnaDo).getTime()>Date.now()){ this.setSubscription(true, c.aktywnaDo); return; } }catch(e){}
       }
-      const sb=await this.supa(); if(!sb || !this.state.user) return this.setSubscription(false);
-      const {data,error}=await sb.from("ortus_subskrypcje").select("aktywna_do").maybeSingle();
-      if(error || !data || !data.aktywna_do) return this.setSubscription(false);
-      const ok=new Date(data.aktywna_do).getTime() > Date.now();
-      this.setSubscription(ok, ok?data.aktywna_do:"");
+      this.setSubscription(false);   // poza aplikacją abonamentu nie ma
     }catch(e){ this.setSubscription(false); }
   }
   setSubscription(ok, aktywnaDo){
@@ -2459,18 +2454,11 @@ class Component extends DCLogic {
     this.setState({sklepKupuje:false});
   }
   sklepBlad(e){ const m=String((e&&e.message)||e||"").trim(); if(!m || /cancel|anulow|userCancelled/i.test(m)) return ""; return "Zakup się nie powiódł: "+m; }
-  // uprawnienie: od razu lokalnie, do Supabase gdy jest konto (żeby zadziałało też na www)
+  // uprawnienie: sklep jest źródłem prawdy, kopia lokalna chroni przed mignięciem reklam na starcie
   async przyjmijSubskrypcje(info){
     if(!info || !info.aktywnaDo || !(new Date(info.aktywnaDo).getTime()>Date.now())) return;
     try{ localStorage.setItem("ortus_abonament_v1", JSON.stringify({aktywnaDo:info.aktywnaDo, produkt:info.produkt||""})); }catch(e){}
     this.setSubscription(true, info.aktywnaDo);
-    try{
-      const sb=await this.supa(); const u=this.state.user;
-      if(sb && u){
-        const most=this.sklepMost();
-        await sb.from("ortus_subskrypcje").upsert({user_id:u.id, aktywna_do:new Date(info.aktywnaDo).toISOString(), zrodlo:(most&&most.platforma)||"apple", produkt:info.produkt||null, updated_at:new Date().toISOString()});
-      }
-    }catch(e){}
   }
   mountAd(){
     if(typeof window==="undefined" || !window.adsbygoogle) return;
@@ -2741,7 +2729,7 @@ class Component extends DCLogic {
         ? "Płatność zostanie pobrana z konta Google Play przy potwierdzeniu zakupu. Abonament odnawia się automatycznie na kolejny okres, chyba że anulujesz go w Google Play co najmniej 24 godziny przed końcem bieżącego okresu. Anulować możesz w każdej chwili w ustawieniach subskrypcji Google Play."
         : "Płatność zostanie pobrana z konta Apple przy potwierdzeniu zakupu. Abonament odnawia się automatycznie na kolejny okres, chyba że wyłączysz automatyczne odnawianie co najmniej 24 godziny przed końcem bieżącego okresu. Opłata za odnowienie jest pobierana w ciągu 24 godzin przed jego końcem. Abonamentem zarządzasz w ustawieniach konta Apple.";
       out.sklepRegulaminUrl= google ? "https://niekazmuliczyc.pl/regulamin/" : "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/";
-      out.sklepLoginNota=!!most && !s.user;
+      out.sklepLoginNota=false;
       out.onBack=()=>this.setState({screen:"menu"});
     }
 
