@@ -28,6 +28,8 @@ on:
 jobs:
   play:
     runs-on: ubuntu-latest
+    env:
+      MA_KONTO_PLAY: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON != '' && 'tak' || 'nie' }}
     timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
@@ -71,7 +73,14 @@ jobs:
           ./gradlew bundleRelease --no-daemon
           ls -la app/build/outputs/bundle/release/
 
+      - name: Paczka .aab do pobrania (ręczne wgranie w Play Console)
+        uses: actions/upload-artifact@v4
+        with:
+          name: ortus-aab-${{ github.event.inputs.wersja }}
+          path: android/app/build/outputs/bundle/release/app-release.aab
+
       - name: Wysyłka do Google Play
+        if: ${{ env.MA_KONTO_PLAY == 'tak' }}
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
