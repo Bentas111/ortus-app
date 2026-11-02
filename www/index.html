@@ -77,6 +77,14 @@ window.ortusConsentGrant = function(){};
     <!-- ================= MENU ================= -->
     <sc-if value="{{ isMenu }}" hint-placeholder-val="{{ true }}">
       <div style="display:flex;flex-direction:column;gap:18px">
+        <!-- baner „Ortuś bez reklam” (projekt „MenuBaner” w Design, 2.11) — tylko w aplikacji, bez abonamentu -->
+        <sc-if value="{{ pokazBanerBezReklam }}">
+          <button onClick="{{ onOpenSklep }}" style="display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--accent,#6B4FD8);color:#fff;border:none;border-radius:22px;padding:16px;box-shadow:0 6px 0 var(--accent-d,#573AC0);cursor:pointer;font-family:'Nunito',sans-serif" style-hover="transform:translateY(-2px)">
+            <span style="flex:none;width:64px;height:64px;border-radius:999px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center"><img src="ortus-duch.png" alt="" style="width:44px;height:54px;object-fit:contain"></span>
+            <span style="display:flex;flex-direction:column;gap:3px;flex:1"><span style="font-family:'Baloo 2',sans-serif;font-weight:800;font-size:20px;line-height:1.1">Ortuś bez reklam</span><span style="font-size:14px;font-weight:700;line-height:1.35;color:#EDE6FF">Nauka bez przerw na reklamy</span></span>
+            <span style="flex:none;background:#FFD84D;color:#4A3A00;font-weight:800;font-size:14px;border-radius:999px;padding:8px 12px">Zobacz</span>
+          </button>
+        </sc-if>
         <sc-if value="{{ showIntro }}">
           <div style="background:#fff;border:2px solid var(--accent-bd,#DCCFF6);border-radius:24px;padding:22px;box-shadow:0 16px 40px rgba(44,36,72,.1)">
             <div style="font-family:'Baloo 2',sans-serif;font-weight:800;font-size:24px;color:var(--accent-d,#573AC0);text-align:center">Cześć, jestem Ortuś! 👋</div>
@@ -395,8 +403,16 @@ window.ortusConsentGrant = function(){};
         </div>
 
         <div style="background:#fff;border-radius:22px;padding:20px 18px;box-shadow:0 8px 30px rgba(87,58,192,.08)">
-          <p style="margin:0 0 6px;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:22px;color:#2C2447;line-height:1.2">Wszystkie ćwiczenia zostają za darmo.</p>
-          <p style="margin:0;font-size:15px;color:#6B6285;line-height:1.55">Abonament wyłącza tylko reklamy w aplikacji. Nie odblokowuje żadnych dodatkowych zadań, bo wszystkie już masz.</p>
+          <div style="display:flex;flex-direction:column;align-items:center;text-align:center">
+            <div style="width:116px;height:116px;border-radius:999px;background:#E3D8FF;display:flex;align-items:center;justify-content:center"><img src="ortus-duch.png" alt="Ortuś" style="width:80px;height:98px;object-fit:contain"></div>
+            <p style="margin:10px 0 0;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:26px;color:#3F2A8F;line-height:1.12">Nauka bez przerw na reklamy</p>
+            <p style="margin:8px 0 0;font-size:15px;color:#4E4668;font-weight:600;line-height:1.5">Wszystkie ćwiczenia zostają za darmo. Abonament wyłącza reklamy, więc dziecko ćwiczy w skupieniu, od zadania do zadania.</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px">
+            <sc-for list="{{ sklepKorzysci }}" as="k" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:12px"><span aria-hidden="true" style="flex:none;width:28px;height:28px;border-radius:999px;background:#DDF5E6;color:#147A43;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px">✓</span><span style="font-size:15px;font-weight:700;line-height:1.35;color:#2C2447">{{ k.tekst }}</span></div>
+            </sc-for>
+          </div>
 
           <!-- aktywny abonament -->
           <sc-if value="{{ sklepAktywny }}">
@@ -417,16 +433,19 @@ window.ortusConsentGrant = function(){};
           <!-- oferta w aplikacji -->
           <sc-if value="{{ sklepOfertaWidoczna }}">
             <sc-if value="{{ sklepLaduje }}"><div role="status" style="margin-top:16px;text-align:center;font-size:14px;color:#6B6285">Pobieram ceny ze sklepu…</div></sc-if>
-            <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px">
+            <div style="display:flex;flex-direction:column;gap:14px;margin-top:20px">
               <sc-for list="{{ sklepOferty }}" as="o" hint-placeholder-count="2">
-                <button onClick="{{ o.onClick }}" aria-disabled="{{ o.dis }}" style="{{ o.style }}" style-hover="transform:translateY(-2px)">
+                <button onClick="{{ o.onClick }}" aria-pressed="{{ o.wybrany }}" aria-disabled="{{ o.dis }}" style="{{ o.style }}" style-hover="transform:translateY(-2px)">
+                  <sc-if value="{{ o.maPlakietke }}"><span style="position:absolute;top:-12px;left:16px;background:#FFD84D;color:#4A3A00;font-weight:800;font-size:12px;border-radius:999px;padding:3px 10px">{{ o.plakietka }}</span></sc-if>
                   <span style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;width:100%">
-                    <span style="text-align:left"><span style="display:block;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:19px">{{ o.tytul }}</span><span style="display:block;font-size:13px;font-weight:600;opacity:.85">{{ o.opis }}</span></span>
-                    <span style="text-align:right;white-space:nowrap"><span style="display:block;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:19px">{{ o.cena }}</span><span style="display:block;font-size:12px;font-weight:600;opacity:.85">{{ o.okres }}</span></span>
+                    <span style="text-align:left"><span style="display:block;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:20px">{{ o.tytul }}</span><span style="display:block;font-size:13px;font-weight:700;color:#6B6285">{{ o.opis }}</span></span>
+                    <span style="text-align:right;white-space:nowrap"><span style="display:block;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:22px;color:#3F2A8F">{{ o.cena }}</span><span style="display:block;font-size:12px;font-weight:700;color:#6B6285">{{ o.okres }}</span></span>
                   </span>
                 </button>
               </sc-for>
             </div>
+            <button onClick="{{ onSklepKupWybrany }}" aria-disabled="{{ sklepZajety }}" style="{{ sklepCtaStyle }}" style-hover="transform:translateY(-2px)">{{ sklepCtaTekst }}</button>
+            <p style="margin:10px 0 0;text-align:center;font-size:13px;font-weight:700;color:#4E4668">Przed płatnością poprosimy o odpowiedź osoby dorosłej.</p>
             <sc-if value="{{ sklepPrzywracanieWidoczne }}"><div style="text-align:center;margin-top:12px"><button onClick="{{ onSklepPrzywroc }}" aria-disabled="{{ sklepZajety }}" style="background:none;border:0;padding:6px 10px;font:inherit;font-weight:800;font-size:14px;color:var(--accent-d,#573AC0);text-decoration:underline;text-underline-offset:3px;cursor:pointer">Przywróć zakupy</button></div></sc-if>
           </sc-if>
 
@@ -773,6 +792,20 @@ window.ortusConsentGrant = function(){};
 
     <!-- ================= SUMMARY ================= -->
     <sc-if value="{{ isSummary }}">
+      <!-- karta dla rodzica co 3. lekcję po reklamie (projekt „KartaPoLekcji” w Design, 2.11) -->
+      <sc-if value="{{ kartaBezReklam }}">
+        <div style="position:fixed;inset:0;background:rgba(44,36,71,.55);z-index:50;display:flex;align-items:flex-end;justify-content:center">
+          <div role="dialog" aria-modal="true" aria-label="Ortuś bez reklam" style="width:100%;max-width:520px;background:#fff;border-radius:28px 28px 0 0;padding:26px 24px 28px;display:flex;flex-direction:column;gap:14px;box-shadow:0 -10px 40px rgba(44,36,71,.25);text-align:left">
+            <div style="display:flex;align-items:center;gap:14px">
+              <div style="flex:none;width:76px;height:76px;border-radius:999px;background:#E3D8FF;display:flex;align-items:center;justify-content:center"><img src="ortus-duch.png" alt="" style="width:54px;height:66px;object-fit:contain"></div>
+              <div><div style="font-size:13px;font-weight:800;color:#6B4FD8;letter-spacing:.02em">DLA RODZICA</div><div style="font-family:'Baloo 2',sans-serif;font-weight:800;font-size:24px;line-height:1.15;color:#3F2A8F">Reklama przerwała naukę?</div></div>
+            </div>
+            <p style="margin:0;font-size:15px;line-height:1.5;font-weight:600;color:#4E4668">Z abonamentem dziecko przechodzi od lekcji do lekcji bez reklam. Ćwiczenia dalej są za darmo, wyłączasz tylko reklamy.</p>
+            <button onClick="{{ onKartaZobacz }}" style="width:100%;background:var(--accent,#6B4FD8);color:#fff;border:none;border-radius:18px;padding:16px;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:19px;box-shadow:0 6px 0 var(--accent-d,#573AC0);cursor:pointer">Zobacz Ortusia bez reklam</button>
+            <button onClick="{{ onKartaZamknij }}" style="width:100%;background:none;border:0;padding:10px;font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;color:var(--accent-d,#573AC0);cursor:pointer">Nie teraz, gramy dalej</button>
+          </div>
+        </div>
+      </sc-if>
       <div style="display:flex;flex-direction:column;gap:18px;text-align:center">
         <div style="padding-top:6px">
           <div style="width:120px;height:134px;margin:0 auto;animation:floaty 4s ease-in-out infinite">
@@ -1327,7 +1360,8 @@ class Component extends DCLogic {
     combo:0, lessonXp:0, bestCombo:0, comboFlash:0, lessonResult:null, ghostColor:null,
     bezReklam:false,                                  // aktywny abonament — reklamy nie pokazują się nigdzie
     bezReklamDo:"",                                   // data ważności abonamentu (do pokazania)
-    sklepStan:"", sklepProdukty:[], sklepMsg:"", sklepKupuje:false   // ekran „Bez reklam"
+    sklepStan:"", sklepProdukty:[], sklepMsg:"", sklepKupuje:false,   // ekran „Bez reklam"
+    sklepWybrany:"", kartaBezReklam:false   // wybrany plan; karta „Reklama przerwała naukę?” po lekcji
   };
   progress={};
   profile={xp:0,streak:0,lastDay:"",todayXp:0,todayDay:"",lessons:0,perfect:0,bestCombo:0,badges:{},ghost:""};
@@ -1687,7 +1721,7 @@ class Component extends DCLogic {
   toggleWord(i){ if(this.state.answered) return; this.setState(s=>({sel: s.sel.includes(i)? s.sel.filter(x=>x!==i) : [...s.sel,i]})); }
   check(){ if(this.state.answered) return; const q=this.cur(); const want=[...q.c].sort().join(","); const got=[...this.state.sel].sort().join(","); this.resolve(want===got); }
   onTick(){ const s=this.state; if(s.screen!=="exercise"||s.mode==="study"||s.mode==="exam"||!s.challenge||s.answered||!s.set.length) return; if(s.timeLeft<=1){ this.resolve(false,{timeLeft:0}); } else { this.setState({timeLeft:s.timeLeft-1}); } }
-  next(){ const s=this.state; if(s.qIndex>=s.total-1){ const res=this.finalizeLesson(); this.setState({screen:"summary",lessonResult:res}); try{ window.ortusLessonDone && window.ortusLessonDone(); }catch(e){} return; } this.setState({qIndex:s.qIndex+1,answered:false,correct:false,pick:null,sel:[],showRule:false,comboFlash:0,timeLeft:this.timeMax(),timeMax:this.timeMax()}); }
+  next(){ const s=this.state; if(s.qIndex>=s.total-1){ const res=this.finalizeLesson(); this.setState({screen:"summary",lessonResult:res}); try{ window.ortusLessonDone && window.ortusLessonDone(); }catch(e){} this.kartaPoLekcji(); return; } this.setState({qIndex:s.qIndex+1,answered:false,correct:false,pick:null,sel:[],showRule:false,comboFlash:0,timeLeft:this.timeMax(),timeMax:this.timeMax()}); }
   studyNext(rec){
     const s=this.state, q=this.cur();
     if(rec && q && q.full){
@@ -1721,7 +1755,7 @@ class Component extends DCLogic {
     if(this.state.user){ this.syncUp(); }
     this.track("nauka_ukonczona",{klasa:this.state.level||"",slowa:this.state.total});
     this.setState({screen:"summary", lessonResult:{gained:gained, perfect:false, newly:newly, goalMet:false, bonus:0, study:true, known:known}});
-    try{ window.ortusLessonDone && window.ortusLessonDone(); }catch(e){}
+    try{ window.ortusLessonDone && window.ortusLessonDone(); }catch(e){} this.kartaPoLekcji();
   }
   back(){ if(typeof window!=="undefined" && window.speechSynthesis){ try{window.speechSynthesis.cancel();}catch(e){} } this.setState({screen:"menu"}); }
   toggleRule(){ this.setState(s=>({showRule:!s.showRule})); }
@@ -2419,6 +2453,12 @@ class Component extends DCLogic {
   //     stan()        → {aktywnaDo, produkt} albo null }
   // Na stronie www mostu nie ma — ekran pokazuje wtedy, że zakup jest w aplikacji.
   sklepMost(){ return (typeof window!=="undefined" && window.ortusSklep) || null; }
+  // 2.11: co 3. ukończona lekcja w aplikacji (bez abonamentu) pokazujemy rodzicowi kartę „Reklama przerwała naukę?”
+  kartaPoLekcji(){
+    if(this.state.bezReklam || !this.sklepMost()) return;
+    this._lekcjeKarta=(this._lekcjeKarta||0)+1;
+    if(this._lekcjeKarta%3===0) this.setState({kartaBezReklam:true});
+  }
   sklepIds(){ return ["pl.niekazmuliczyc.ortus.bezreklam.miesiac","pl.niekazmuliczyc.ortus.bezreklam.rok"]; }
   async openSklep(){
     const most=this.sklepMost();
@@ -2683,6 +2723,10 @@ class Component extends DCLogic {
     out.ringStyle={strokeDasharray:circ+"px",strokeDashoffset:(circ*(1-rp))+"px",stroke: todayXp>=goal? "#157A43":accent,transition:"stroke-dashoffset .6s ease",transform:"rotate(-90deg)",transformOrigin:"20px 20px"};
     out.isBadges=s.screen==="badges"; out.openBadges=()=>this.openBadges();
     out.badgeCount=Object.keys(P.badges||{}).length+" / "+this.badgeDefs().length;
+    // karta „Reklama przerwała naukę?” — na ekranie podsumowania, tylko w aplikacji i bez abonamentu
+    out.kartaBezReklam=!!s.kartaBezReklam && !s.bezReklam && !!this.sklepMost();
+    out.onKartaZobacz=()=>{ this.setState({kartaBezReklam:false}); this.openSklep(); };
+    out.onKartaZamknij=()=>this.setState({kartaBezReklam:false});
 
     // odnośniki do sklepów (menu i ekran „Bez reklam") — Androida wystarczy dopisać w supabase-config.js
     {
@@ -2712,17 +2756,31 @@ class Component extends DCLogic {
       out.hasSklepMsg=!!s.sklepMsg; out.sklepMsg=s.sklepMsg||"";
       out.sklepMsgStyle={marginTop:"14px",padding:"12px 14px",borderRadius:"14px",fontSize:"14px",fontWeight:700,lineHeight:1.45,
         background:dobra?"#E6F7EC":"#FDECEF", border:"1px solid "+(dobra?"#7FCF9F":"#F3B6C2"), color:dobra?"#0F5C32":"#A3243A"};
+      // 2.11: oferta z projektu w Design — korzyści dla rodzica, rok wyróżniony z policzoną oszczędnością, wybór planu + jeden duży przycisk
+      const kwota=t=>{ const m=String(t||"").replace(/\s/g,"").replace(",",".").match(/\d+(\.\d+)?/); return m?parseFloat(m[0]):0; };
+      const pm=(s.sklepProdukty||[]).find(p=>/\.miesiac$/.test(p.id)), pr=(s.sklepProdukty||[]).find(p=>/\.rok$/.test(p.id));
+      const zl=v=>v.toFixed(2).replace(".",",")+" zł";
+      const naMiesiac= pr&&kwota(pr.cena) ? zl(kwota(pr.cena)/12) : "";
+      const oszczednosc= pm&&pr&&kwota(pm.cena)&&kwota(pr.cena) ? Math.floor(kwota(pm.cena)*12-kwota(pr.cena)) : 0;
+      out.sklepKorzysci=[{tekst:"Żadnych reklam między lekcjami i dyktandami"},{tekst:"Dziecko nie wyjdzie z aplikacji przez przypadkowe kliknięcie"},{tekst:"Wspierasz darmowe ćwiczenia, które tworzy nauczyciel"}];
       const opisy={
-        "pl.niekazmuliczyc.ortus.bezreklam.miesiac":{tytul:"Miesiąc", opis:"Odnawia się co miesiąc", okres:"za miesiąc"},
-        "pl.niekazmuliczyc.ortus.bezreklam.rok":{tytul:"Rok", opis:"Taniej niż 12 miesięcy osobno", okres:"za rok"}
+        "pl.niekazmuliczyc.ortus.bezreklam.miesiac":{tytul:"Miesiąc", opis:"możesz anulować w każdej chwili", okres:"za miesiąc"},
+        "pl.niekazmuliczyc.ortus.bezreklam.rok":{tytul:"Rok", opis: naMiesiac ? "wychodzi "+naMiesiac+" miesięcznie" : "taniej niż 12 miesięcy osobno", okres:"za rok"}
       };
-      const base={display:"block",width:"100%",textAlign:"left",background:"#fff",border:"2px solid "+accentBd,color:accentD,borderRadius:"18px",padding:"14px 16px",cursor:"pointer",transition:"transform .12s",boxShadow:"0 4px 0 "+accentBd,fontFamily:"'Nunito',sans-serif"};
-      out.sklepOferty=(s.sklepProdukty||[]).map(p=>{
+      const wybrany=s.sklepWybrany || (pr?pr.id:(pm?pm.id:""));
+      out.onSklepKupWybrany=()=>{ if(wybrany) this.sklepKup(wybrany); };
+      out.sklepCtaTekst=s.sklepKupuje ? "Łączę ze sklepem…" : "Wyłącz reklamy";
+      out.sklepCtaStyle={display:"block",width:"100%",marginTop:"18px",background:accent,color:"#fff",border:"none",borderRadius:"18px",padding:"17px 16px",fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"20px",boxShadow:"0 6px 0 "+accentD,cursor:"pointer",opacity:s.sklepKupuje||!wybrany?0.6:1,pointerEvents:s.sklepKupuje||!wybrany?"none":"auto"};
+      const base={position:"relative",display:"block",width:"100%",textAlign:"left",background:"#fff",border:"2px solid "+accentBd,color:"#2C2447",borderRadius:"20px",padding:"14px 16px",cursor:"pointer",transition:"transform .12s",boxShadow:"0 4px 0 "+accentBd,fontFamily:"'Nunito',sans-serif"};
+      out.sklepOferty=(s.sklepProdukty||[]).slice().sort((a,b)=>(/\.rok$/.test(b.id)?1:0)-(/\.rok$/.test(a.id)?1:0)).map(p=>{
         const m=opisy[p.id]||{tytul:p.tytul||p.id, opis:"", okres:p.okres||""};
+        const tenWybrany = p.id===wybrany, rok=/\.rok$/.test(p.id);
         let st={...base};
-        if(/\.rok$/.test(p.id)) st={...st,background:accent,color:"#fff",border:"2px solid "+accentD,boxShadow:"0 4px 0 "+accentD};
+        if(tenWybrany) st={...st,border:"3px solid "+accent,boxShadow:"0 4px 0 "+accentD,padding:rok?"18px 16px 14px":"14px 16px"};
         if(s.sklepKupuje) st={...st,opacity:0.6,pointerEvents:"none"};
-        return {tytul:m.tytul, opis:m.opis, cena:p.cena||"", okres:m.okres, style:st, dis:s.sklepKupuje?"true":"false", onClick:()=>this.sklepKup(p.id)};
+        return {tytul:m.tytul, opis:m.opis, cena:p.cena||"", okres:m.okres, style:st, dis:s.sklepKupuje?"true":"false",
+          wybrany:tenWybrany?"true":"false", maPlakietke:rok, plakietka:"Najczęściej wybierany"+(oszczednosc>0?" · oszczędzasz "+oszczednosc+" zł":""),
+          onClick:()=>this.setState({sklepWybrany:p.id})};
       });
       // treści wymagane przez sklepy przy subskrypcjach (Apple 3.1.2, Google Play)
       out.sklepZastrzezenie= google
@@ -2821,6 +2879,7 @@ class Component extends DCLogic {
       out.onOpenRanking=()=>this.openRanking();
       out.showRanking=this.rankingMode()!=="off";
       out.onOpenSklep=()=>this.openSklep();
+      out.pokazBanerBezReklam=!!this.sklepMost() && !s.bezReklam;
       out.sklepPrzyciskTekst=s.bezReklam ? "✓ Bez reklam" : "🚫 Bez reklam";
       out.myNick=this.nick(); out.hasNick=!!this.nick();
       out.needsNick=!!s.user && !this.nick();
