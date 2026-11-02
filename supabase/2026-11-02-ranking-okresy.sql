@@ -18,8 +18,8 @@ declare
   v_delta   integer;
 begin
   if tg_op = 'INSERT' then
-    v_delta := greatest(coalesce(new.xp, 0), 0);
-    new.day_xp := v_delta;  new.month_xp := v_delta;
+    -- pierwszy wpis przenosi dorobek sprzed konta; do dnia i miesiąca liczą się dopiero kolejne lekcje
+    new.day_xp := 0;  new.month_xp := 0;
   else
     v_delta := greatest(coalesce(new.xp, 0) - coalesce(old.xp, 0), 0);
     new.day_xp   := case when old.day_key   = v_dzien   then coalesce(old.day_xp, 0)   + v_delta else v_delta end;
