@@ -29,7 +29,7 @@ window.ORTUS_SKLEPY = {
 //          "week" — tylko tablica tygodniowa (zeruje się co poniedziałek; zawyżony wynik nie zostaje na stałe)
 //          "all"  — pełny ranking; włącz dopiero po uruchomieniu funkcji ortus_submit_score (SQL niżej)
 window.ORTUS_FEATURES = {
-  ranking: "week"
+  ranking: "all"
 };
 
 // ============================================================

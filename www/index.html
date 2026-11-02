@@ -2273,6 +2273,9 @@ class Component extends DCLogic {
     return "Coś poszło nie tak. Spróbuj ponownie za chwilę.";
   }
   weekKey(d){ d=d||new Date(); const t=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())); const day=t.getUTCDay()||7; t.setUTCDate(t.getUTCDate()+4-day); const y0=new Date(Date.UTC(t.getUTCFullYear(),0,1)); const wk=Math.ceil(((t-y0)/86400000+1)/7); return t.getUTCFullYear()+"-W"+(wk<10?"0":"")+wk; }
+  // dzień i miesiąc rankingu liczy baza w czasie polskim (wyzwalacz ortus_ranking_okresy), więc filtr też w czasie polskim
+  dayKey(){ try{ return new Intl.DateTimeFormat("sv-SE",{timeZone:"Europe/Warsaw"}).format(new Date()); }catch(e){ const d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); } }
+  monthKey(){ return this.dayKey().slice(0,7); }
   addWeekXp(n){ const p=this.profile=this.profile||{}; const wk=this.weekKey(); if(p.weekKey!==wk){ p.weekKey=wk; p.weekXp=0; } p.weekXp=(p.weekXp||0)+n; this.bumpWeek({xp:n}); }
   rankStats(){
     const p=this.profile||{};
@@ -2302,14 +2305,16 @@ class Component extends DCLogic {
     const sb=await this.supa();
     if(!sb){ this.setState({rankLoading:false, rankErr:"Ranking wymaga połączenia z internetem."}); return; }
     const scope=this.state.rankScope||"week";
-    const sort= scope==="week" ? "week_xp" : (this.state.rankSort||"xp");
+    const sort= scope==="week" ? "week_xp" : scope==="day" ? "day_xp" : scope==="month" ? "month_xp" : (this.state.rankSort||"xp");
     const lvl=this.state.rankLevel||"all";
     try{
       // widok publiczny nie ma kolumny user_id — identyfikatory cudzych kont nie trafiają do przeglądarki;
       // gdy widok nie jest jeszcze wdrożony, czytamy tabelę (też bez user_id)
       const fetchFrom=async(src)=>{
-        let q=sb.from(src).select("nick,xp,badges,mastered,streak,week_xp,week_key,level");
+        let q=sb.from(src).select("nick,xp,badges,mastered,streak,week_xp,week_key,level"+(scope==="day"||scope==="month"?",day_xp,day_key,month_xp,month_key":""));
         if(scope==="week") q=q.eq("week_key", this.weekKey());
+        if(scope==="day") q=q.eq("day_key", this.dayKey()).gt("day_xp",0);
+        if(scope==="month") q=q.eq("month_key", this.monthKey()).gt("month_xp",0);
         if(lvl!=="all") q=q.eq("level", lvl);
         return await q.order(sort,{ascending:false}).limit(50);
       };
@@ -2902,12 +2907,15 @@ class Component extends DCLogic {
       const small=(a)=>({cursor:"pointer",borderRadius:"999px",border:"1px solid "+(a?accentD:"#E3DCF0"),background:a?accentSoft:"#fff",color:a?accentD:"#6E6488",padding:"6px 12px",fontWeight:800,fontFamily:"'Nunito',sans-serif",fontSize:"13px"});
       // w trybie "week" nie pokazujemy trwałego dorobku: tygodniowa tablica zeruje się sama,
       // więc nawet zawyżony wynik nie zostaje na stałe (do czasu walidacji po stronie serwera)
-      const scopes=[{k:"week",l:"🔥 Ten tydzień"}]; if(this.rankingMode()==="all") scopes.push({k:"all",l:"👑 Ogółem"});
+      const scopes=[{k:"day",l:"☀️ Dziś"},{k:"week",l:"🔥 Ten tydzień"},{k:"month",l:"📅 Ten miesiąc"}]; if(this.rankingMode()==="all") scopes.push({k:"all",l:"👑 Ogółem"});
       out.rankScopes=scopes.map(t=>({label:t.l,style:chip(scope===t.k),onClick:()=>this.setRankScope(t.k)}));
       out.rankLevels=[{k:"all",l:"Wszyscy"},{k:"1-2",l:"Klasa 1–2"},{k:"3-4",l:"Klasa 3–4"},{k:"5-6",l:"Klasa 5–6"}]
         .map(t=>({label:t.l,style:small(lvl===t.k),onClick:()=>this.setRankLevel(t.k)}));
       out.showSortTabs=scope==="all" && this.rankingMode()==="all";
-      out.rankCaption= scope==="week" ? "XP zdobyte w tym tygodniu — lista zeruje się w każdy poniedziałek." : "Dorobek od początku gry.";
+      out.rankCaption= scope==="week" ? "XP zdobyte w tym tygodniu — lista zeruje się w każdy poniedziałek."
+        : scope==="day" ? "XP zdobyte dzisiaj — lista zeruje się o północy."
+        : scope==="month" ? "XP zdobyte w tym miesiącu — lista zeruje się pierwszego dnia miesiąca."
+        : "Dorobek od początku gry.";
       out.rankTabs=[{k:"xp",l:"XP"},{k:"badges",l:"Odznaki"},{k:"mastered",l:"Słówka"},{k:"streak",l:"Passa"}]
         .map(t=>({label:t.l,style:chip(sort===t.k),onClick:()=>this.setRankSort(t.k)}));
       out.rankLoading=!!s.rankLoading; out.rankErr=s.rankErr||""; out.hasRankErr=!!s.rankErr;
@@ -2919,7 +2927,7 @@ class Component extends DCLogic {
       out.rankRows=rows.map((r,i)=>{
         const mine=!!meNick && String(r.nick||"").toLowerCase()===meNick;
         const medal= i===0?"🥇":i===1?"🥈":i===2?"🥉":String(i+1);
-        const val= scope==="week" ? (r.week_xp||0)+" XP"
+        const val= scope==="week" ? (r.week_xp||0)+" XP" : scope==="day" ? (r.day_xp||0)+" XP" : scope==="month" ? (r.month_xp||0)+" XP"
           : sort==="xp"? (r.xp||0)+" XP" : sort==="badges"? (r.badges||0)+" 🏅" : sort==="mastered"? (r.mastered||0)+" ⭐" : (r.streak||0)+" 🔥";
         return {pos:medal, nick:r.nick, val,
           rowStyle:{display:"flex",alignItems:"center",gap:"12px",padding:"12px 14px",borderRadius:"14px",background:mine?"#FFF6DC":"#fff",border:"1px solid "+(mine?"#FCE4A0":"#F0EAFB")},
